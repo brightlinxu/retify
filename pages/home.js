@@ -173,7 +173,7 @@ const Home = () => {
           </div>
           <br />
           <div>
-            Top Track Pics: 
+            Top Track Pics : 
             {trackPics.map((pic, id) => (<ul key={id}>{pic}</ul>))}
           </div>
         </div>
