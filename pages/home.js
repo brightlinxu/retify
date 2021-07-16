@@ -11,8 +11,10 @@ const Home = () => {
   const [trackUris, setTrackUris] = useState([]);
   const [trackAvgDur, setTrackAvgDur] = useState({ sec : 0, min : 0 });
   const [trackArtists, setTrackArtists] = useState([]);
+  const [trackPics, setTrackPics] = useState([]);
   const [artistNames, setArtistNames] = useState([]);
   const [artistGenres, setArtistGenres] = useState([]);
+  const [artistPics, setArtistPics] = useState([]);
 
   // keeps track if app already called api and got data
   const [hasData, setHasData] = useState(false); 
@@ -61,6 +63,7 @@ const Home = () => {
     let tempTrackUris = [];
     let tempTrackDurs = [];
     let tempTrackArtists = [];
+    let tempTrackPics = [];
 
     // loop through each artist
     data.forEach(elt => {
@@ -74,6 +77,8 @@ const Home = () => {
         multiArtists.push(artist.name);
       });
       tempTrackArtists.push(multiArtists);
+
+      tempTrackPics.push(elt.album.images[1].url); // index 0 = biggest pic, 1 = medium, 2 = smallest
     });
 
     // setting each hook to updated array
@@ -81,6 +86,7 @@ const Home = () => {
     setTrackUris(tempTrackUris);
     setTrackAvgDur(getAvgDur(tempTrackDurs));
     setTrackArtists(tempTrackArtists);
+    setTrackPics(tempTrackPics);
   }
 
 
@@ -99,11 +105,13 @@ const Home = () => {
   const parseArtists = (data) => {
     let tempArtistNames = [];
     let tempArtistGenres = {};
+    let tempArtistPics = [];
 
     // loop through each artist
     data.forEach(elt => {
       tempArtistNames.push(elt.name);
       getTopGenres(elt, tempArtistGenres);
+      tempArtistPics.push(elt.images[2].url); // index 0 = biggest pic, 1 = medium, 2 = smallest
     });
 
     tempArtistGenres = Object.entries(tempArtistGenres)
@@ -113,10 +121,11 @@ const Home = () => {
 
     setArtistNames(tempArtistNames);
     setArtistGenres(tempArtistGenres);
+    setArtistPics(tempArtistPics);
   }
   
   const getTop = (type, timeRange) => {
-    fetch(`https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}`, {
+    fetch(`https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}&limit=50`, {
       method: 'GET',
       headers: {'Authorization': 'Bearer ' + accessToken}
     })
@@ -162,6 +171,11 @@ const Home = () => {
           <div>
             access token: {accessToken}
           </div>
+          <br />
+          <div>
+            Top Track Pics: 
+            {trackPics.map((pic, id) => (<ul key={id}>{pic}</ul>))}
+          </div>
         </div>
       );
     }
@@ -177,7 +191,7 @@ const Home = () => {
         <br />
         <Music accessToken={accessToken} trackUris={trackUris}/>
         <div>
-          Top Track Names : 
+          Top Track Names: 
           {trackNames.map((name, id) => (<ul key={id}>{name}</ul>))}
           Top Track Uris:
           {trackUris.map((uri, id) => (<ul key={id}>{uri}</ul>))}
