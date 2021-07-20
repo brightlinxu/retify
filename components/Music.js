@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const Music = ({ accessToken, trackUris, trackDurs }) => {
+const Music = ({ accessToken, tracks, artists }) => {
   const SONGLENGTH = 12000; // in milliseconds
 
   // device related hooks
@@ -11,10 +11,9 @@ const Music = ({ accessToken, trackUris, trackDurs }) => {
 
   // song and music related hooks
   const [musicPaused, setMusicPaused] = useState(false);
-  //const [afterPause, setAfterPause] = useState(false);
   const [curSongPos, setCurSongPos] = useState(0);
   const [curSongCount, setCurSongCount] = useState(0);
-  /*const [clear, setClear] = useState(false);*/
+  const [songEnded, setSongEnded] = useState(false);
 
   // variables that clears all the timeouts
   const [musicTimeout, setMusicTimeout] = useState(null);
@@ -23,30 +22,30 @@ const Music = ({ accessToken, trackUris, trackDurs }) => {
   const [cfuInterval, setCfuInterval] = useState(null);
   const [cfdInterval, setCfdInterval] = useState(null);
 
-  const randomizer = (songNum) => {
-    if (trackDurs[songNum] < 30000) { // song is less than 30 seconds
+  const randomizer = (track) => {
+    if (track.duration_ms < 30000) { // song is less than 30 seconds
+      console.log('LESS THAN 30 SECONDS\n\n\n\n\n')
       return 0;
     }
 
-    return Math.floor((Math.random() * 15) + 30); // generate number between 
+    return Math.floor((Math.random() * 20) + 20) * 1000; // generate number between 
   }
 
 
-  const playMusic = (currentPosition, counter) => {
+  const playMusic = (currentPosition) => {
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
       method: 'PUT',
-      body: `{"uris": ["${trackUris[counter]}"], "position_ms": ${currentPosition}}`,
+      body: `{"uris": ["${tracks[curSongCount].uri}"], "position_ms": ${currentPosition}}`,
       headers: {'Authorization': 'Bearer ' + accessToken}
     })
       .then(res => {
         if (res.ok) { 
-          console.log(`CURRENTLY PLAYING ${trackUris[counter]}`);
+          console.log(`CURRENTLY PLAYING ${tracks[curSongCount].name}`);
 
           // playing the background music
-          if (counter < Object.keys(trackUris).length) {
-            backgroundMusic(counter);
+          if (curSongCount < Object.keys(tracks).length) {
+            backgroundMusic();
           }
-          //setAfterPause(false);
         }
         else console.log('ERROR PLAYING MUSIC');
       });
@@ -62,6 +61,7 @@ const Music = ({ accessToken, trackUris, trackDurs }) => {
         if (res.ok) {
           console.log('PAUSED MUSIC');
           setVolume(0);
+          setCurSongCount(curSongCount - 1);
         }
         else console.log('ERROR PAUSING MUSIC');
       });
@@ -82,18 +82,18 @@ const Music = ({ accessToken, trackUris, trackDurs }) => {
   // clears all the timeouts and intervals controlling background music
   const clear = () => {
     console.log('CLEARED');
-      clearTimeout(musicTimeout);
-      clearTimeout(musicTimeout2);
-      clearTimeout(cfuTimeout);
-      clearInterval(cfuInterval);
-      clearInterval(cfdInterval);
+    clearTimeout(musicTimeout);
+    clearTimeout(musicTimeout2);
+    clearTimeout(cfuTimeout);
+    clearInterval(cfuInterval);
+    clearInterval(cfdInterval);
   }
 
   // plays and pauses the music
   const toggleMusic = () => {
     if (musicPaused) {
         // if music is paused, play the song from where it stopped
-        playMusic(curSongPos, curSongCount);
+        playMusic(curSongPos);
     }
     else {
         /*setClear(true);*/
@@ -105,6 +105,7 @@ const Music = ({ accessToken, trackUris, trackDurs }) => {
         //setAfterPause(true);
     }
   }
+
 
   const crossfadeDown = () => {
     let counter = 100;
@@ -152,30 +153,29 @@ const Music = ({ accessToken, trackUris, trackDurs }) => {
     }, crossfadeDur + 3000));
   }
 
-  const backgroundMusic = (counter) => {
+  const backgroundMusic = () => {
     let crossfadeDur = 4640; // 58 * crossfade interval
     
     // records current song when music pauses
-    setCurSongCount(counter);
-    ++counter;
-    
-    // if user pauses then plays, don't use crossfadeUp effect
-    //if (!afterPause) {
-    crossfadeUp(crossfadeDur);
-    //}
+    setCurSongCount(5);
 
+    // if user pauses then plays, don't use crossfadeUp effect
+
+    crossfadeUp(crossfadeDur);
+
+    console.log('song count: ', curSongCount, '\n\n\n');
     setMusicTimeout(setTimeout(() => {
         crossfadeDown();
         
-        if (counter < Object.keys(trackUris).length) {
+        if (curSongCount < Object.keys(tracks).length) {
             setMusicTimeout2(setTimeout(() => {
                 // plays next song
-                playMusic(0, counter);
+                console.log('song count: ', curSongCount, '\n\n\n');
+                playMusic(randomizer(tracks[curSongCount]));
             }, crossfadeDur));
         }
     }, SONGLENGTH));
   }
-
 
 
   useEffect(() => {
@@ -190,7 +190,7 @@ const Music = ({ accessToken, trackUris, trackDurs }) => {
 
       window.onSpotifyWebPlaybackSDKReady = () => {
         const player = new Spotify.Player({
-        name: 'REtify Web Player',
+        name: 'retify Web Player',
         getOAuthToken: callback => { callback(accessToken); },
         volume: 0
       });
@@ -206,7 +206,10 @@ const Music = ({ accessToken, trackUris, trackDurs }) => {
         console.log('state:', state); 
         
         if (state) {
-          if (state.paused) {
+          if (state.paused && state.position === 0) {
+            setSongEnded(true);
+          }
+          else if (state.paused) {
             setCurSongPos(state.position);
             setMusicPaused(true);
         } 
@@ -234,13 +237,32 @@ const Music = ({ accessToken, trackUris, trackDurs }) => {
   }, [accessToken]);
 
 
+  // resumes music in case song ends before interval ends
   useEffect(() => {
-    if (deviceId != '' && trackUris.length && !played) {
+    if (songEnded === true) {
+      clear();
+      playMusic(randomizer(tracks[curSongCount])); // plays next song
+
+      // SDK changes a couple of times, so we need to wait (1.5 seconds)
+      // until it stops changing to reset songEnded
+      setTimeout(() => {
+        setSongEnded(false);
+      }, 1500);
+    }
+  }, [songEnded]);
+
+
+  useEffect(() => {
+    if (deviceId != '' && tracks.length && !played) {
       setPlayed(true);
-      playMusic(0, 0);
+      playMusic(randomizer(tracks[0]));
     }
     
-  }, [deviceId, trackUris, accessToken]);
+  }, [deviceId, tracks, accessToken]);
+
+  useEffect(() => {
+    console.log('song count: ', curSongCount, '\n\n\n');
+  }, [curSongCount]);
   
   
   
@@ -248,7 +270,7 @@ const Music = ({ accessToken, trackUris, trackDurs }) => {
   return (
     <div>
       <div>
-        music is currently playing! {accessToken}
+        music is currently playing! {curSongCount}
       </div>
       <button onClick={toggleMusic}>
         toggle music

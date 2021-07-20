@@ -2,20 +2,13 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import Music from '../components/Music.js';
 import { getUrl } from '../components/AuthUrl.js';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 const Home = () => {
   // api data hooks
   const [accessToken, setAccessToken] = useState('');
-  const [trackNames, setTrackNames] = useState([]);
-  const [trackUris, setTrackUris] = useState([]);
-  const [trackDurs, setTrackDurs] = useState([]);
-  const [trackAvgDur, setTrackAvgDur] = useState({ sec : 0, min : 0 });
-  const [trackArtists, setTrackArtists] = useState([]);
-  const [trackPics, setTrackPics] = useState([]);
-  const [artistNames, setArtistNames] = useState([]);
-  const [artistGenres, setArtistGenres] = useState([]);
-  const [artistPics, setArtistPics] = useState([]);
+  const [tracks, setTracks] = useState([]);
+  const [artists, setArtists] = useState([]);
 
   // keeps track if app already called api and got data
   const [hasData, setHasData] = useState(false); 
@@ -42,14 +35,14 @@ const Home = () => {
   }
   
   // finding average duration
-  const getAvgDur = (durs) => {
+  const getAvgDur = () => {
     // adding together all durations in array
-    let totalDur = durs.reduce((total, current) => {
-      return total + (current / 1000);
+    let totalDur = tracks.reduce((total, current) => {
+      return total + (current.duration_ms / 1000);
     }, 0);
     
     // getting average of total durations
-    let avgDur = totalDur / durs.length;
+    let avgDur = totalDur / tracks.length;
 
     // separating average duration into minutes and seconds
     let min = Math.floor(avgDur / 60);
@@ -58,73 +51,28 @@ const Home = () => {
     return {min, sec};
   }
 
-  const parseTracks = (data) => {
-    // temporarily using arrays to push items into, then setting state
-    let tempTrackNames = [];
-    let tempTrackUris = [];
-    let tempTrackDurs = [];
-    let tempTrackArtists = [];
-    let tempTrackPics = [];
-
-    // loop through each artist
-    data.forEach(elt => {
-      tempTrackNames.push(elt.name);
-      tempTrackUris.push(elt.uri);
-      tempTrackDurs.push(elt.duration_ms);
-      
-      // there may be multiple artists for one song
-      let multiArtists = [];
-      elt.artists.forEach(artist => {
-        multiArtists.push(artist.name);
-      });
-      tempTrackArtists.push(multiArtists);
-
-      tempTrackPics.push(elt.album.images[1].url); // index 0 = biggest pic, 1 = medium, 2 = smallest
-    });
-
-    // setting each hook to updated array
-    setTrackNames(tempTrackNames);
-    setTrackUris(tempTrackUris);
-    setTrackDurs(tempTrackDurs);
-    setTrackAvgDur(getAvgDur(tempTrackDurs));
-    setTrackArtists(tempTrackArtists);
-    setTrackPics(tempTrackPics);
-  }
-
 
   // finding top genres
-  const getTopGenres = (data, tempObject) => {
+  const getTopGenres = () => {
+    let tempGenres = {};
+
     // counting number of each genre and putting into object
-    data.genres.forEach((genre) => {
-      if (tempObject.hasOwnProperty(genre)) {
-        ++tempObject[genre];
-      } else {
-          tempObject[genre] = 1;
-      }
-    });
-  }
-
-  const parseArtists = (data) => {
-    let tempArtistNames = [];
-    let tempArtistGenres = {};
-    let tempArtistPics = [];
-
-    // loop through each artist
-    data.forEach(elt => {
-      tempArtistNames.push(elt.name);
-      getTopGenres(elt, tempArtistGenres);
-      tempArtistPics.push(elt.images[2].url); // index 0 = biggest pic, 1 = medium, 2 = smallest
+    artists.forEach(artist => {
+      artist.genres.forEach(genre => {
+        if (tempGenres.hasOwnProperty(genre)) {
+          ++tempGenres[genre];
+        } else {
+            tempGenres[genre] = 1;
+        }
+      });
     });
 
-    tempArtistGenres = Object.entries(tempArtistGenres)
-                             .sort((a,b) => b[1] - a[1])
-                             .slice(0, 5)
-                             .map(genre => { return genre[0]; });
-
-    setArtistNames(tempArtistNames);
-    setArtistGenres(tempArtistGenres);
-    setArtistPics(tempArtistPics);
+    return Object.entries(tempGenres)
+                 .sort((a,b) => b[1] - a[1])
+                 .slice(0, 5)
+                 .map(genre => { return genre[0]; });
   }
+
   
   const getTop = (type, timeRange) => {
     fetch(`https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}`, {
@@ -136,7 +84,7 @@ const Home = () => {
       })
       .then(data => {
         console.log(`${type} info:`, data.items);
-        type === 'tracks' ? parseTracks(data.items) : parseArtists(data.items);
+        type === 'tracks' ? setTracks(data.items) : setArtists(data.items);
       })
   }
 
@@ -167,16 +115,17 @@ const Home = () => {
     if (!checked) {
       return (
         <div>
+          <div>
+            Authenticated!
+          </div>
+          <br />
           <button onClick={() => {setChecked(true)}}>
             see my stats!
           </button>
-          <div>
-            access token: {accessToken}
-          </div>
+          <br />
           <br />
           <div>
-            Top Track Pics: 
-            {trackPics.map((pic, id) => (<ul key={id}>{pic}</ul>))}
+            access token: {accessToken}
           </div>
         </div>
       );
@@ -185,24 +134,21 @@ const Home = () => {
     return (
       <div>
         <div>
-          Authenticated!
-        </div>
-        <div>
           access token: {accessToken}
         </div>
         <br />
-        <Music accessToken={accessToken} trackUris={trackUris} trackDurs={trackDurs}/>
+        <Music accessToken={accessToken} tracks={tracks} artists={artists}/>
         <div>
           Top Track Names: 
-          {trackNames.map((name, id) => (<ul key={id}>{name}</ul>))}
+          {tracks.map((track, id) => (<ul key={id}>{track.name}</ul>))}
           Top Track Uris:
-          {trackUris.map((uri, id) => (<ul key={id}>{uri}</ul>))}
+          {tracks.map((track, id) => (<ul key={id}>{track.uri}</ul>))}
           Average Track Duration: 
-          <ul>{trackAvgDur.min} minutes and {trackAvgDur.sec} seconds</ul>
+          <ul>{getAvgDur().min} minutes and {getAvgDur().sec} seconds</ul>
           Top Artist Names : 
-          {artistNames.map((name, id) => (<ul key={id}>{name}</ul>))}
+          {artists.map((artist, id) => (<ul key={id}>{artist.name}</ul>))}
           Top Artist Genres : 
-          {artistGenres.map((genre, id) => (<ul key={id}>{genre}</ul>))}
+          {getTopGenres().map((genre, id) => (<ul key={id}>{genre}</ul>))}
         </div>
       </div>
     );
