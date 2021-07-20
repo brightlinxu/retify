@@ -5,7 +5,6 @@ const Music = ({ accessToken, tracks, artists }) => {
 
   // device related hooks
   const [deviceId, setDeviceId] = useState('');
-  const [deviceReady, setDeviceReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [played, setPlayed] = useState(false);
 
@@ -223,7 +222,6 @@ const Music = ({ accessToken, tracks, artists }) => {
           console.log('Ready with Device ID', device_id);
     
           setDeviceId(device_id);
-          setDeviceReady(true);
       });
     
       // Not Ready
