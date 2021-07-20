@@ -32,20 +32,23 @@ const Music = ({ accessToken, tracks, artists }) => {
   }
 
 
-  const playMusic = (currentPosition) => {
+  const playMusic = (counter, currentPosition) => {
+    if (counter === Object.keys(tracks).length) counter = 0; // loop back around
+    if (currentPosition === undefined) { // randomize start
+      currentPosition = randomizer(tracks[counter]);
+    }
+
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
       method: 'PUT',
-      body: `{"uris": ["${tracks[curSongCount].uri}"], "position_ms": ${currentPosition}}`,
+      body: `{"uris": ["${tracks[counter].uri}"], "position_ms": ${currentPosition}}`,
       headers: {'Authorization': 'Bearer ' + accessToken}
     })
       .then(res => {
         if (res.ok) { 
-          console.log(`CURRENTLY PLAYING ${tracks[curSongCount].name}`);
+          console.log(`CURRENTLY PLAYING ${tracks[counter].name}`);
 
           // playing the background music
-          if (curSongCount < Object.keys(tracks).length) {
-            backgroundMusic();
-          }
+          backgroundMusic(counter);
         }
         else console.log('ERROR PLAYING MUSIC');
       });
@@ -61,7 +64,6 @@ const Music = ({ accessToken, tracks, artists }) => {
         if (res.ok) {
           console.log('PAUSED MUSIC');
           setVolume(0);
-          setCurSongCount(curSongCount - 1);
         }
         else console.log('ERROR PAUSING MUSIC');
       });
@@ -93,7 +95,7 @@ const Music = ({ accessToken, tracks, artists }) => {
   const toggleMusic = () => {
     if (musicPaused) {
         // if music is paused, play the song from where it stopped
-        playMusic(curSongPos);
+        playMusic(curSongCount, curSongPos);
     }
     else {
         /*setClear(true);*/
@@ -153,25 +155,24 @@ const Music = ({ accessToken, tracks, artists }) => {
     }, crossfadeDur + 3000));
   }
 
-  const backgroundMusic = () => {
+  const backgroundMusic = (counter) => {
     let crossfadeDur = 4640; // 58 * crossfade interval
     
     // records current song when music pauses
-    setCurSongCount(5);
+    setCurSongCount(counter);
+    ++counter;
 
     // if user pauses then plays, don't use crossfadeUp effect
 
     crossfadeUp(crossfadeDur);
 
-    console.log('song count: ', curSongCount, '\n\n\n');
     setMusicTimeout(setTimeout(() => {
         crossfadeDown();
         
-        if (curSongCount < Object.keys(tracks).length) {
+        if (counter < Object.keys(tracks).length) {
             setMusicTimeout2(setTimeout(() => {
                 // plays next song
-                console.log('song count: ', curSongCount, '\n\n\n');
-                playMusic(randomizer(tracks[curSongCount]));
+                playMusic(counter);
             }, crossfadeDur));
         }
     }, SONGLENGTH));
@@ -241,7 +242,7 @@ const Music = ({ accessToken, tracks, artists }) => {
   useEffect(() => {
     if (songEnded === true) {
       clear();
-      playMusic(randomizer(tracks[curSongCount])); // plays next song
+      playMusic(curSongCount + 1); // plays next song
 
       // SDK changes a couple of times, so we need to wait (1.5 seconds)
       // until it stops changing to reset songEnded
@@ -255,14 +256,10 @@ const Music = ({ accessToken, tracks, artists }) => {
   useEffect(() => {
     if (deviceId != '' && tracks.length && !played) {
       setPlayed(true);
-      playMusic(randomizer(tracks[0]));
+      playMusic(0);
     }
     
   }, [deviceId, tracks, accessToken]);
-
-  useEffect(() => {
-    console.log('song count: ', curSongCount, '\n\n\n');
-  }, [curSongCount]);
   
   
   
