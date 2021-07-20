@@ -265,7 +265,7 @@ const Music = ({ accessToken, tracks, artists }) => {
   return (
     <div>
       <div>
-        music is currently playing! {curSongCount}
+        Currently Playing: {tracks[curSongCount].name}
       </div>
       <button onClick={toggleMusic}>
         toggle music
