@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const Music = ({ accessToken, trackUris }) => {
+const Music = ({ accessToken, trackUris, trackDurs }) => {
   const SONGLENGTH = 12000; // in milliseconds
 
   // device related hooks
@@ -22,6 +22,14 @@ const Music = ({ accessToken, trackUris }) => {
   const [cfuTimeout, setCfuTimeout] = useState(null);
   const [cfuInterval, setCfuInterval] = useState(null);
   const [cfdInterval, setCfdInterval] = useState(null);
+
+  const randomizer = (songNum) => {
+    if (trackDurs[songNum] < 30000) { // song is less than 30 seconds
+      return 0;
+    }
+
+    return Math.floor((Math.random() * 15) + 30); // generate number between 
+  }
 
 
   const playMusic = (currentPosition, counter) => {

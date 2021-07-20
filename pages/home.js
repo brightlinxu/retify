@@ -9,6 +9,7 @@ const Home = () => {
   const [accessToken, setAccessToken] = useState('');
   const [trackNames, setTrackNames] = useState([]);
   const [trackUris, setTrackUris] = useState([]);
+  const [trackDurs, setTrackDurs] = useState([]);
   const [trackAvgDur, setTrackAvgDur] = useState({ sec : 0, min : 0 });
   const [trackArtists, setTrackArtists] = useState([]);
   const [trackPics, setTrackPics] = useState([]);
@@ -44,8 +45,8 @@ const Home = () => {
   const getAvgDur = (durs) => {
     // adding together all durations in array
     let totalDur = durs.reduce((total, current) => {
-        return total + current;
-    });
+      return total + (current / 1000);
+    }, 0);
     
     // getting average of total durations
     let avgDur = totalDur / durs.length;
@@ -69,7 +70,7 @@ const Home = () => {
     data.forEach(elt => {
       tempTrackNames.push(elt.name);
       tempTrackUris.push(elt.uri);
-      tempTrackDurs.push(elt.duration_ms / 1000);
+      tempTrackDurs.push(elt.duration_ms);
       
       // there may be multiple artists for one song
       let multiArtists = [];
@@ -84,6 +85,7 @@ const Home = () => {
     // setting each hook to updated array
     setTrackNames(tempTrackNames);
     setTrackUris(tempTrackUris);
+    setTrackDurs(tempTrackDurs);
     setTrackAvgDur(getAvgDur(tempTrackDurs));
     setTrackArtists(tempTrackArtists);
     setTrackPics(tempTrackPics);
@@ -125,7 +127,7 @@ const Home = () => {
   }
   
   const getTop = (type, timeRange) => {
-    fetch(`https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}&limit=50`, {
+    fetch(`https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}`, {
       method: 'GET',
       headers: {'Authorization': 'Bearer ' + accessToken}
     })
@@ -189,7 +191,7 @@ const Home = () => {
           access token: {accessToken}
         </div>
         <br />
-        <Music accessToken={accessToken} trackUris={trackUris}/>
+        <Music accessToken={accessToken} trackUris={trackUris} trackDurs={trackDurs}/>
         <div>
           Top Track Names: 
           {trackNames.map((name, id) => (<ul key={id}>{name}</ul>))}
