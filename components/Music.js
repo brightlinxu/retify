@@ -27,7 +27,7 @@ const Music = ({ accessToken, tracks, artists }) => {
       return 0;
     }
 
-    return Math.floor((Math.random() * 20) + 20) * 1000; // generate number between 
+    return Math.floor((Math.random() * 20) + 20) * 1000; // generate number between 20-40 
   }
 
 
@@ -242,8 +242,8 @@ const Music = ({ accessToken, tracks, artists }) => {
       clear();
       playMusic(curSongCount + 1); // plays next song
 
-      // SDK changes a couple of times, so we need to wait (1.5 seconds)
-      // until it stops changing to reset songEnded
+      // SDK changes state a couple of times, so we need to 
+      // wait (1.5 seconds) until it stops changing to reset songEnded
       setTimeout(() => {
         setSongEnded(false);
       }, 1500);
