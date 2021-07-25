@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const Music = ({ accessToken, tracks, artists }) => {
-  const SONGLENGTH = 12000; // in milliseconds
+  const SONGLENGTH = 9000; // in milliseconds
 
   // device related hooks
   const [deviceId, setDeviceId] = useState('');
@@ -22,16 +22,18 @@ const Music = ({ accessToken, tracks, artists }) => {
   const [cfdInterval, setCfdInterval] = useState(null);
 
   const randomizer = (track) => {
-    if (track.duration_ms < 30000) { // song is less than 30 seconds
+    if (track.duration_ms < 30000) { // in case song is less than 30 seconds
       console.log('LESS THAN 30 SECONDS\n\n\n\n\n')
       return 0;
     }
-
+  
     return Math.floor((Math.random() * 20) + 20) * 1000; // generate number between 20-40 
   }
 
 
   const playMusic = (counter, currentPosition) => {
+    console.log(Object.keys(tracks).length);
+    console.log(counter);
     if (counter === Object.keys(tracks).length) counter = 0; // loop back around
     if (currentPosition === undefined) { // randomize start
       currentPosition = randomizer(tracks[counter]);
@@ -167,13 +169,11 @@ const Music = ({ accessToken, tracks, artists }) => {
 
     setMusicTimeout(setTimeout(() => {
         crossfadeDown();
-        
-        if (counter < Object.keys(tracks).length) {
-            setMusicTimeout2(setTimeout(() => {
-                // plays next song
-                playMusic(counter);
-            }, crossfadeDur));
-        }
+
+        setMusicTimeout2(setTimeout(() => {
+          // plays next song
+          playMusic(counter);
+        }, crossfadeDur));
     }, SONGLENGTH));
   }
 
@@ -251,6 +251,7 @@ const Music = ({ accessToken, tracks, artists }) => {
   }, [songEnded]);
 
 
+  // driver function to play music when page is loaded
   useEffect(() => {
     if (deviceId != '' && tracks.length && !played) {
       setPlayed(true);

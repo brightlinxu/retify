@@ -75,7 +75,7 @@ const Home = () => {
 
   
   const getTop = (type, timeRange) => {
-    fetch(`https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}`, {
+    fetch(`https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}&limit=3`, {
       method: 'GET',
       headers: {'Authorization': 'Bearer ' + accessToken}
     })
