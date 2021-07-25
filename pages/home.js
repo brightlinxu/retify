@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Music from '../components/Music.js';
 import { getUrl } from '../components/AuthUrl.js';
-import { useRouter } from 'next/router';
+import PreHomeBG from '../components/PreHomeBG.js';
 
 const Home = () => {
   // api data hooks
@@ -75,7 +75,7 @@ const Home = () => {
 
   
   const getTop = (type, timeRange) => {
-    fetch(`https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}&limit=3`, {
+    fetch(`https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}`, {
       method: 'GET',
       headers: {'Authorization': 'Bearer ' + accessToken}
     })
@@ -124,9 +124,7 @@ const Home = () => {
           </button>
           <br />
           <br />
-          <div>
-            access token: {accessToken}
-          </div>
+          <PreHomeBG tracks={tracks} artists={artists} />
         </div>
       );
     }
