@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import ImageFadeIn from './ImageFadeIn.js';
+import styles from '../styles/ImageFadeIn.module.css'
 
 const PreHomeBG = ( { tracks, artists } ) => {
   const [one, setOne] = useState(false);
@@ -8,21 +8,27 @@ const PreHomeBG = ( { tracks, artists } ) => {
   useEffect(() => {
     setTimeout(() => { setOne(true);
       setTimeout(() => { setTwo(true);
-      }, 300);
-    }, 300);
+      }, 400);
+    }, 400);
   });
 
   if (tracks.length !== 0) {
     return(
       <div>
-        <div>
-          <ImageFadeIn src={tracks[0].album.images[0].url} />
-          {one && <ImageFadeIn src={tracks[1].album.images[0].url} />}
-          {two && <ImageFadeIn src={tracks[2].album.images[0].url} />}
-          {two && <ImageFadeIn src={tracks[3].album.images[0].url} />}
-          {two && <ImageFadeIn src={tracks[4].album.images[0].url} />}
-          {one && <ImageFadeIn src={tracks[5].album.images[0].url} />}
-          {one && <ImageFadeIn src={tracks[6].album.images[0].url} />}
+        <div style={{position: 'fixed', top: '10%', left: '10%'}}>
+          <img src={tracks[0].album.images[0].url} 
+          width='150px' length='150px'
+          className={styles.fadeInImg}/>
+        </div>
+        <div style={{position: 'fixed', top: '40%', left: '40%'}}>
+          {one && <img src={tracks[1].album.images[0].url} 
+          width='120px' length='120px'
+          className={styles.fadeInImg}/>}
+        </div>
+        <div style={{position: 'fixed', top: '60%', left: '60%'}}>
+          {two && <img src={tracks[3].album.images[0].url} 
+          width='90px' length='90px'
+          className={styles.fadeInImg}/>}
         </div>
       </div>
     );
