@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Music from '../components/Music.js';
 import { getUrl } from '../components/AuthUrl.js';
 import PreHomeBG from '../components/PreHomeBG.js';
+import PreHomeStats from '../components/PreHomeStats.js';
 
 const Home = () => {
   // api data hooks
@@ -125,6 +126,7 @@ const Home = () => {
           <br />
           <br />
           <PreHomeBG tracks={tracks} artists={artists} />
+          <PreHomeStats />
         </div>
       );
     }

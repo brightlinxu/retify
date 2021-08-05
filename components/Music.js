@@ -49,7 +49,10 @@ const Music = ({ accessToken, tracks, artists }) => {
           console.log(`CURRENTLY PLAYING ${tracks[counter].name}`);
 
           // playing the background music
-          backgroundMusic(counter);
+          let timeout = setTimeout(() => {
+            backgroundMusic(counter);
+          }, 500);
+
         }
         else console.log('ERROR PLAYING MUSIC');
       });

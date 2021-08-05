@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import styles from '../styles/ImageFadeIn.module.css'
+import styles from '../styles/PreHomeBG.module.css'
 
 const PreHomeBG = ( { tracks, artists } ) => {
-  const positions = [{left: '34%', top: '41%'}, // pic ID = VSCode row # + 5
+  const picInterval = 80;
+  const positions = [{left: '34%', top: '41%'}, // row = pic ID + 6
                      {left: '88%', top: '23%'},
                      {left: '11%', top: '85%'},
                      {left: '69%', top: '65%'},
@@ -76,7 +77,7 @@ const PreHomeBG = ( { tracks, artists } ) => {
       }
       if (mounted) setCount(count => count + 1);
       
-    }, 80);
+    }, picInterval);
 
     return () => mounted = false; // fix mounting error
   }, []);
@@ -95,9 +96,8 @@ const PreHomeBG = ( { tracks, artists } ) => {
       <div>
         {srcs.slice(0, count).map((src, id) => (
           <div key={id} style={{position: 'fixed', left: `${positions[id].left}`, top: `${positions[id].top}`, 
-                                transform: 'translate(-50%, -50%)', zIndex: `${(id + 1) * -1}`}}>
-            <img src={src} height={baseSize - (id * changingSize)} width={baseSize - (id * changingSize)} className={styles.fadeInImg}/>
-            {id}
+                                transform: 'translate(-50%, -50%)', filter: `blur(0px)`, zIndex: `${(id + 1) * -1}`}}>
+            <img src={src} height={baseSize - (id * changingSize)} className={styles.fadeInImg}/>
           </div>
         ))}
       </div>
@@ -106,7 +106,7 @@ const PreHomeBG = ( { tracks, artists } ) => {
 
   return (
     <div>
-      loading...
+      Loading...
     </div>
   );
   
