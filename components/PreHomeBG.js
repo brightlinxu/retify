@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from '../styles/PreHomeBG.module.css'
 
 const PreHomeBG = ( { tracks, artists } ) => {
-  const picInterval = 80;
+  const picInterval = 60;
   const positions = [{left: '34%', top: '41%'}, // row = pic ID + 6
                      {left: '88%', top: '23%'},
                      {left: '11%', top: '85%'},
@@ -38,6 +38,7 @@ const PreHomeBG = ( { tracks, artists } ) => {
   const [count, setCount] = useState(0);
   const [srcs, setSrcs] = useState([]);
   const [gotSrcs, setGotSrcs] = useState(false);
+  const [startCount, setStartCount] = useState(false);
 
   // returns a set of unique album/artist pictures
   const getPicSrcs = () => {
@@ -69,18 +70,20 @@ const PreHomeBG = ( { tracks, artists } ) => {
 
   // counter to fade in pictures one by one
   useEffect(() => {
-    let mounted = true;
+    if (startCount) {
+      let mounted = true;
 
-    const interval = setInterval(() => {
-      if (count === positions.length) {
-        clearInterval(interval);
-      }
-      if (mounted) setCount(count => count + 1);
-      
-    }, picInterval);
+      const interval = setInterval(() => {
+        if (count === positions.length) {
+          clearInterval(interval);
+        }
+        if (mounted) setCount(count => count + 1);
+        
+      }, picInterval);
 
-    return () => mounted = false; // fix mounting error
-  }, []);
+      return () => mounted = false; // fix mounting error
+    }
+  }, [startCount]);
 
 
   if (tracks.length !== 0 && artists.length !== 0) {
@@ -90,6 +93,7 @@ const PreHomeBG = ( { tracks, artists } ) => {
     if (!gotSrcs) {
       setSrcs(getPicSrcs());
       setGotSrcs(true);
+      setStartCount(true);
     }
 
     return(
