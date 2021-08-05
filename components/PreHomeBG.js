@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from '../styles/PreHomeBG.module.css'
+import styles from '../styles/PreHomeBG.module.css';
 
 const PreHomeBG = ( { tracks, artists } ) => {
   const picInterval = 60;

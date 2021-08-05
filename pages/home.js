@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Music from '../components/Music.js';
 import { getUrl } from '../components/AuthUrl.js';
-import PreHomeBG from '../components/PreHomeBG.js';
-import PreHomeStats from '../components/PreHomeStats.js';
+import PreHome from '../components/PreHome.js';
+import styles from '../styles/Home.module.css';
 
 const Home = () => {
   // api data hooks
@@ -115,19 +115,7 @@ const Home = () => {
   const renderChecked = () => {
     if (!checked) {
       return (
-        <div>
-          <div>
-            Authenticated!
-          </div>
-          <br />
-          <button onClick={() => {setChecked(true)}}>
-            see my stats!
-          </button>
-          <br />
-          <br />
-          <PreHomeBG tracks={tracks} artists={artists} />
-          <PreHomeStats />
-        </div>
+        <PreHome tracks={tracks} artists={artists} />
       );
     }
 
