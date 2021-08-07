@@ -115,7 +115,7 @@ const Home = () => {
   const renderChecked = () => {
     if (!checked) {
       return (
-        <PreHome tracks={tracks} artists={artists} />
+        <PreHome tracks={tracks} artists={artists} setChecked={setChecked}/>
       );
     }
 

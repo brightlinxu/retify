@@ -1,5 +1,15 @@
 import { useState, useEffect } from "react";
 
+//*****************************************************
+// PLAN FOR HOW TO PLAY MUSIC 
+// after I get all 60 tracks (20 from each time range)
+// order them in an array with the uris in this order:
+// #1 short_term, #1 medium_term, #1 longterm_, 
+// #2 short_term, #2 medium_term, #2 longterm_,
+// #3 short_term, and so on...
+//*****************************************************
+
+
 const Music = ({ accessToken, tracks, artists }) => {
   const SONGLENGTH = 9000; // in milliseconds
 

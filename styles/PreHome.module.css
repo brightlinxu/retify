@@ -1,3 +1,7 @@
+.background {
+  background: lightgrey;
+}
+
 .boxLayout {
   display: flex;
   align-items: center;

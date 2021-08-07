@@ -1,10 +1,12 @@
 import styles from '../styles/PreHomeStats.module.css'
 
-const PreHomeStats = () => {
+const PreHomeStats = ( { text } ) => {
 
   return(
     <div className={styles.background}>
-      test
+      <div className={styles.text}>
+        {text}
+      </div>
     </div>
   );
 }
