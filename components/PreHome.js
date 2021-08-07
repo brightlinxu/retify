@@ -4,19 +4,18 @@ import PreHomeStats from '../components/PreHomeStats.js';
 import styles from '../styles/PreHome.module.css';
 
 const PreHome = ( { tracks, artists, setChecked } ) => {
+  const picInterval = 60;
+
+  const [finishedBG, setFinishedBG] = useState(false);
 
 
   return(
     <div>
-      <PreHomeBG tracks={tracks} artists={artists} />
-      <div className={styles.boxLayout}>
-        <PreHomeStats text={'Lorem ipsum dolor sit amet'}/>
-        <PreHomeStats text={'Lorem ipsum dolor sit amet, consectetur'}/>
-        <PreHomeStats text={'Lorem ipsum dolor'}/>
-      </div>
       <button onClick={() => {setChecked(true)}}>
         see my stats!
       </button>
+      <PreHomeBG tracks={tracks} artists={artists} picInterval={picInterval} setFinishedBG={setFinishedBG}/>
+      {finishedBG && <PreHomeStats />}
     </div>
   );
 }

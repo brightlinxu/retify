@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import styles from '../styles/PreHomeBG.module.css';
+import styles from '../styles/PreHome.module.css';
 
-const PreHomeBG = ( { tracks, artists } ) => {
-  const picInterval = 60;
+const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG } ) => {
   const positions = [{left: '34%', top: '41%'}, // row = pic ID + 6
                      {left: '88%', top: '23%'},
                      {left: '11%', top: '85%'},
@@ -39,6 +38,8 @@ const PreHomeBG = ( { tracks, artists } ) => {
   const [srcs, setSrcs] = useState([]);
   const [gotSrcs, setGotSrcs] = useState(false);
   const [startCount, setStartCount] = useState(false);
+  const [blur, setBlur] = useState(0);
+
 
   // returns a set of unique album/artist pictures
   const getPicSrcs = () => {
@@ -71,14 +72,21 @@ const PreHomeBG = ( { tracks, artists } ) => {
   // counter to fade in pictures one by one
   useEffect(() => {
     if (startCount) {
+      let tempCount = 0;
       let mounted = true;
 
       const interval = setInterval(() => {
-        if (count === positions.length) {
+        if (tempCount === positions.length) {
           clearInterval(interval);
+          let timeout = setTimeout(() => {
+            setFinishedBG(true);
+            setBlur(0.5);
+          }, 1500);
         }
-        if (mounted) setCount(count => count + 1);
-        
+        if (mounted) {
+          ++tempCount;
+          setCount(tempCount);
+        }
       }, picInterval);
 
       return () => mounted = false; // fix mounting error
@@ -100,8 +108,8 @@ const PreHomeBG = ( { tracks, artists } ) => {
       <div>
         {srcs.slice(0, count).map((src, id) => (
           <div key={id} style={{position: 'fixed', left: `${positions[id].left}`, top: `${positions[id].top}`, 
-                                transform: 'translate(-50%, -50%)', filter: `blur(0px)`, zIndex: `${(id + 1) * -1}`}}>
-            <img src={src} height={baseSize - (id * changingSize)} className={styles.fadeInImg}/>
+                                transform: 'translate(-50%, -50%)', filter: `blur(${blur}px)`, zIndex: `${(id + 1) * -1}`}}>
+            <img src={src} height={baseSize - (id * changingSize)} className={styles.imgFadeIn}/>
           </div>
         ))}
       </div>

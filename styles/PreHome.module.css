@@ -1,9 +1,59 @@
-.background {
-  background: lightgrey;
-}
-
 .boxLayout {
   display: flex;
   align-items: center;
   flex-direction: column;
 }
+
+.boxBackground {
+  border-radius: 50% 20% / 10% 40%;;
+  background: rgba(255, 218, 118, 0.93);
+  margin: 2px;
+  padding: 60px 30px;
+  animation: fadeIn 3s;
+  -webkit-animation: fadeIn 1s;
+  -moz-animation: fadeIn 1s;
+  -o-animation: fadeIn 1s;
+  -ms-animation: fadeIn 1s;
+}
+
+.boxText {
+  font-size: 20px;
+}
+
+
+.imgFadeIn {
+  border-radius: 5%;
+  animation: fadeIn 1s;
+  -webkit-animation: fadeIn 1s;
+  -moz-animation: fadeIn 1s;
+  -o-animation: fadeIn 1s;
+  -ms-animation: fadeIn 1s;
+}
+
+
+
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-webkit-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-moz-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-o-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-ms-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
