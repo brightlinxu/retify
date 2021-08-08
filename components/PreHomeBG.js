@@ -129,8 +129,8 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur } ) =
     return(
       <div>
         {srcs.slice(0, count).map((src, id) => (
-          <div key={id} style={{position: 'fixed', left: `${positions[id].left}`, top: `${positions[id].top}`, 
-                                transform: 'translate(-50%, -50%)', filter: `blur(${blur}px)`, zIndex: `${(id + 1) * -1}`}}>
+          <div key={id} style={{left: `${positions[id].left}`, top: `${positions[id].top}`, 
+          filter: `blur(${blur}px)`, zIndex: `${(id + 1) * -1}`}} className={styles.fixedPosition}>
             <img src={src} height={baseSize - (id * changingSize)} className={styles.imgFadeIn}/>
           </div>
         ))}

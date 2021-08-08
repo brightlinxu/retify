@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import styles from '../styles/PreHome.module.css'
 
-const PreHomeStats = ( { finishedBG, setRunBlur } ) => {
+const PreHomeStats = ( { finishedBG, setRunBlur, setChecked } ) => {
   const [count, setCount] = useState(0);
   const [int, setInt] = useState(null);
+  const [mounted, setMounted] = useState(true);
 
   const stats = [
     'Lorem ipsum dolor sit amet', 
@@ -24,21 +25,28 @@ const PreHomeStats = ( { finishedBG, setRunBlur } ) => {
           clearInterval(int);
         }
 
-        ++tempCount;
-        setCount(tempCount);
+        if (mounted) {
+          ++tempCount;
+          setCount(tempCount);
+        }
       }, 3000));
     }
   }
 
   const showNext = () => {
-    // stop old interval and start blur effect
-    clearInterval(int);
-    setRunBlur(true);
-
-    // start new interval
-    let tempCount = count + 1; 
-    displayInterval(tempCount); 
-    setCount(tempCount);
+    if (count === 3) {
+      setChecked(true);
+    }
+    else {
+      // stop old interval and start blur effect
+      clearInterval(int);
+      setRunBlur(true);
+  
+      // start new interval
+      let tempCount = count + 1; 
+      displayInterval(tempCount); 
+      setCount(tempCount);
+    }
   }
 
   useEffect(() => {
@@ -50,17 +58,14 @@ const PreHomeStats = ( { finishedBG, setRunBlur } ) => {
 
   return(
     <div>
-      <button onClick={() => showNext()} style={{width: '100%', height: '50px'}}>
-        next bubble
-      </button>
-      <div className={styles.boxLayout} >
-        {stats.slice(0, count).map((entry, id) => (
-          <div key={id} className={styles.boxBackground}>
-            <div className={styles.boxText}>
-              {entry}
-            </div>
-          </div>))}
-      </div>
+      <div onClick={() => showNext()} className={styles.windowClick} />
+      {stats.slice(0, count).map((entry, id) => (
+        <div key={id} style={{top: `${(id + 1) * 25}%`}} className={[styles.boxBackground, styles.fixedPosition].join(' ')} >
+          <div style={{fontSize: `${(window.innerWidth + window.innerHeight) / 100}px`}}>
+            {entry}
+          </div>
+        </div>
+      ))}
     </div>
     
   );

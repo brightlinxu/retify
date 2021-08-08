@@ -1,25 +1,19 @@
-.boxLayout {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+.fixedPosition {
+  position: fixed;
+  transform: translate(-50%, -50%);
 }
 
 .boxBackground {
+  left: 50%;
   border-radius: 50% 20% / 10% 40%;;
   background: rgba(255, 218, 118, 0.93);
-  margin: 2px;
-  padding: 60px 30px;
+  padding: 5% 3%;
   animation: fadeIn 3s;
   -webkit-animation: fadeIn 3s;
   -moz-animation: fadeIn 3s;
   -o-animation: fadeIn 3s;
   -ms-animation: fadeIn 3s;
 }
-
-.boxText {
-  font-size: 20px;
-}
-
 
 .imgFadeIn {
   border-radius: 5%;
@@ -30,6 +24,13 @@
   -ms-animation: fadeIn 1s;
 }
 
+.windowClick {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+  background: grey;
+}
 
 
 @keyframes fadeIn {
