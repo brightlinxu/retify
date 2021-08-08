@@ -189,7 +189,7 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
   useEffect(() => {
     let mounted = true;
 
-    if (accessToken !== '' && !loaded && mounted) {
+    if (accessToken !== '' && !loaded) {
       setLoaded(true);
 
       const script = document.createElement('script');
@@ -200,47 +200,47 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
 
       window.onSpotifyWebPlaybackSDKReady = () => {
         const player = new Spotify.Player({
-        name: 'retify Web Player',
-        getOAuthToken: callback => { callback(accessToken); },
-        volume: 0
-      });
+          name: 'retify Web Player',
+          getOAuthToken: callback => { callback(accessToken); },
+          volume: 0
+        });
       
-      // Error handling
-      player.addListener('initialization_error', ({ message }) => { console.error(message); });
-      player.addListener('authentication_error', ({ message }) => { console.error(message); });
-      player.addListener('account_error', ({ message }) => { console.error(message); });
-      player.addListener('playback_error', ({ message }) => { console.error(message); });
-    
-      // Playback status updates
-      player.addListener('player_state_changed', state => { 
-        console.log('state:', state); 
-        
-        if (state) {
-          if (state.paused && state.position === 0) {
-            setSongEnded(true);
+        // Error handling
+        player.addListener('initialization_error', ({ message }) => { console.error(message); });
+        player.addListener('authentication_error', ({ message }) => { console.error(message); });
+        player.addListener('account_error', ({ message }) => { console.error(message); });
+        player.addListener('playback_error', ({ message }) => { console.error(message); });
+      
+        // Playback status updates
+        player.addListener('player_state_changed', state => { 
+          console.log('state:', state); 
+          
+          if (state && mounted) {
+            if (state.paused && state.position === 0) {
+              setSongEnded(true);
+            }
+            else if (state.paused) {
+              setCurSongPos(state.position);
+              setMusicPaused(true);
+          } 
+          else if (mounted) setMusicPaused(false);
           }
-          else if (state.paused) {
-            setCurSongPos(state.position);
-            setMusicPaused(true);
-        } 
-        else setMusicPaused(false);
-        }
-      });
-    
-      // Ready
-      player.addListener('ready', ({ device_id }) => {
-          console.log('Ready with Device ID', device_id);
-    
-          setDeviceId(device_id);
-      });
-    
-      // Not Ready
-      player.addListener('not_ready', ({ device_id }) => {
-        console.log('Device ID has gone offline', device_id);
-      });
-    
-      // Connect to the player!
-      player.connect();
+        });
+      
+        // Ready
+        player.addListener('ready', ({ device_id }) => {
+            console.log('Ready with Device ID', device_id);
+      
+            if (mounted) setDeviceId(device_id);
+        });
+      
+        // Not Ready
+        player.addListener('not_ready', ({ device_id }) => {
+          console.log('Device ID has gone offline', device_id);
+        });
+      
+        // Connect to the player!
+        player.connect();
       };
     }
 
@@ -254,7 +254,7 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
 
     if (songEnded === true) {
       clear();
-      playMusic(curSongCount + 1); // plays next song
+      if (mounted) playMusic(curSongCount + 1); // plays next song
 
       // SDK changes state a couple of times, so we need to 
       // wait (1.5 seconds) until it stops changing to reset songEnded
@@ -285,10 +285,15 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
   return (
     <div>
       <button onClick={() => {
-        clear();
-        pauseMusic();
         // pause, so spotify player can stop everything before component stops rendering
-        setTimeout(() => setChecked(false), 500); 
+        setTimeout(() => {
+          clear();
+          pauseMusic();
+
+          setTimeout(() => {
+            setChecked(false);
+          }, 500);
+        }, 1000);
       }}>
         go back
       </button>

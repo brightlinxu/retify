@@ -78,24 +78,25 @@ const Home = () => {
       <PreHome tracks={tracks} artists={artists} setChecked={setChecked}/>
     );
   }
-
-  return (
-    <div>
+  else {
+    return (
       <div>
-        access token: {accessToken}
+        <div>
+          access token: {accessToken}
+        </div>
+        <br />
+        <Music accessToken={accessToken} tracks={tracks} artists={artists} setChecked={setChecked}/>
+        <div>
+          Top Track Names: 
+          {tracks.map((track, id) => (<ul key={id}>{track.name}</ul>))}
+          Top Track Uris:
+          {tracks.map((track, id) => (<ul key={id}>{track.uri}</ul>))}
+          Top Artist Names : 
+          {artists.map((artist, id) => (<ul key={id}>{artist.name}</ul>))}
+        </div>
       </div>
-      <br />
-      <Music accessToken={accessToken} tracks={tracks} artists={artists} setChecked={setChecked}/>
-      <div>
-        Top Track Names: 
-        {tracks.map((track, id) => (<ul key={id}>{track.name}</ul>))}
-        Top Track Uris:
-        {tracks.map((track, id) => (<ul key={id}>{track.uri}</ul>))}
-        Top Artist Names : 
-        {artists.map((artist, id) => (<ul key={id}>{artist.name}</ul>))}
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Home;

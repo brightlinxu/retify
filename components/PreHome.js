@@ -12,7 +12,7 @@ const PreHome = ( { tracks, artists, setChecked } ) => {
 
   return(
     <div>
-      <button onClick={() => {setChecked(true)}}>
+      <button onClick={() => setChecked(true)}>
         see my stats!
       </button>
       <PreHomeBG tracks={tracks} artists={artists} picInterval={picInterval} setFinishedBG={setFinishedBG} runBlur={runBlur}/>
