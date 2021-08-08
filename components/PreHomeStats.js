@@ -3,8 +3,7 @@ import styles from '../styles/PreHome.module.css'
 
 const PreHomeStats = ( { finishedBG, setRunBlur, setChecked } ) => {
   const [count, setCount] = useState(0);
-  const [int, setInt] = useState(null);
-  const [mounted, setMounted] = useState(true);
+  const [time, setTime] = useState(null);
 
   const stats = [
     'Lorem ipsum dolor sit amet', 
@@ -13,52 +12,40 @@ const PreHomeStats = ( { finishedBG, setRunBlur, setChecked } ) => {
   ];
 
 
-  const displayInterval = (tempCount, intervalTime) => {
-    if (tempCount === 0) {
-      ++tempCount;
-      setCount(tempCount);
-      setRunBlur(true);
-    }
-    if (tempCount < 3) {
-      setInt(setInterval(() => {
-        if (tempCount === 3) {
-          clearInterval(int);
-        }
+  useEffect(() => {
+    let mounted = true; 
 
-        if (mounted) {
-          ++tempCount;
-          setCount(tempCount);
-        }
-      }, 3000));
-    }
-  }
-
-  const showNext = () => {
-    if (count === 3) {
+    if (count === 4) {
+      clearTimeout(time);
       setChecked(true);
     }
-    else {
+    else if (count !== 0) {
       // stop old interval and start blur effect
-      clearInterval(int);
-      setRunBlur(true);
-  
-      // start new interval
-      let tempCount = count + 1; 
-      displayInterval(tempCount); 
-      setCount(tempCount);
+      clearTimeout(time);
+      if (mounted) setRunBlur(true);
+
+      // start new interval (with new count)
+      if (count < 3) {
+        setTime(setTimeout(() => {
+          if (mounted) setCount(count => count + 1);
+        }, 3000));
+      }
     }
-  }
+
+    return () => mounted = false;
+  }, [count]);
 
   useEffect(() => {
-    if (finishedBG && count === 0) showNext();
-  }, [finishedBG]);
+    // if the background is finished and count is still at 0
+    if (finishedBG && count === 0) setCount(1);
+  }, [finishedBG])
 
   
 
 
   return(
     <div>
-      <div onClick={() => showNext()} className={styles.windowClick} />
+      <div onClick={() => setCount(count => count + 1)} className={styles.windowClick} />
       {stats.slice(0, count).map((entry, id) => (
         <div key={id} style={{top: `${(id + 1) * 25}%`}} className={[styles.boxBackground, styles.fixedPosition].join(' ')} >
           <div style={{fontSize: `${(window.innerWidth + window.innerHeight) / 100}px`}}>
