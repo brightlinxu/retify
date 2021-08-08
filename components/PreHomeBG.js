@@ -66,27 +66,26 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur } ) =
     return Array.from(uniquePics);
   }
 
-  // gradually blurs the images 
-  const gradualBlur = () => {
-    let tempBlur = 0;
-
-    let interval = setInterval(() => {
-      if (tempBlur >= 2) {
-        clearInterval(interval);
-      }
-
-      tempBlur = tempBlur + 0.1;
-      setBlur(tempBlur);
-    }, 50);
-  }
 
 
-
-  // run blur effect if user clicks window to see boxes earlier
+  // gradually blurs images when first stats bubble fades in
   useEffect(() => {
-    if (runBlur) {
-      gradualBlur();
+    let mounted = true;
+
+    if (runBlur && mounted) {
+      let tempBlur = 0;
+
+      let interval = setInterval(() => {
+        if (tempBlur >= 2) {
+          clearInterval(interval);
+        }
+
+        tempBlur = tempBlur + 0.1;
+        if (mounted) setBlur(tempBlur);
+      }, 50);
     }
+
+    return () => mounted = false;
   }, [runBlur]);
 
   // counter to fade in pictures one by one

@@ -16,13 +16,13 @@ const PreHomeStats = ( { finishedBG, setRunBlur, setChecked } ) => {
     let mounted = true; 
 
     if (count === 4) {
-      clearTimeout(time);
+      // alert home page to render track stats and play music
       setChecked(true);
     }
     else if (count !== 0) {
       // stop old interval and start blur effect
       clearTimeout(time);
-      if (mounted) setRunBlur(true);
+      setRunBlur(true);
 
       // start new interval (with new count)
       if (count < 3) {
@@ -47,7 +47,7 @@ const PreHomeStats = ( { finishedBG, setRunBlur, setChecked } ) => {
     <div>
       <div onClick={() => setCount(count => count + 1)} className={styles.windowClick} />
       {stats.slice(0, count).map((entry, id) => (
-        <div key={id} style={{top: `${(id + 1) * 25}%`}} className={[styles.boxBackground, styles.fixedPosition].join(' ')} >
+        <div key={id} style={{top: `${(id + 1) * 25}%`}} className={[styles.bubbleBackground, styles.fixedPosition].join(' ')} >
           <div style={{fontSize: `${(window.innerWidth + window.innerHeight) / 100}px`}}>
             {entry}
           </div>
