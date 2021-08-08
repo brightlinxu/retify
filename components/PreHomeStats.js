@@ -1,15 +1,59 @@
 import { useEffect, useState } from 'react';
 import styles from '../styles/PreHome.module.css'
 
-const PreHomeStats = ( { finishedBG, setRunBlur, setChecked } ) => {
+const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } ) => {
   const [count, setCount] = useState(0);
   const [time, setTime] = useState(null);
 
+
+  // finding average duration
+  const getAvgDur = () => {
+    // adding together all durations in array
+    let totalDur = tracks.reduce((total, current) => {
+      return total + (current.duration_ms / 1000);
+    }, 0);
+    
+    // getting average of total durations
+    let avgDur = totalDur / tracks.length;
+
+    // separating average duration into minutes and seconds
+    let min = Math.floor(avgDur / 60);
+    let sec = Math.round(avgDur - (min * 60));
+
+    return {min, sec};
+  }
+
+  // finding top genres
+  const getTopGenres = () => {
+    let tempGenres = {};
+
+    // counting number of each genre and putting into object
+    artists.forEach(artist => {
+      artist.genres.forEach(genre => {
+        if (tempGenres.hasOwnProperty(genre)) {
+          ++tempGenres[genre];
+        } else {
+            tempGenres[genre] = 1;
+        }
+      });
+    });
+
+    return Object.entries(tempGenres)
+                 .sort((a,b) => b[1] - a[1])
+                 .slice(0, 3)
+                 .map(genre => { return genre[0]; });
+  }
+
+
+  // contains stats that are displayed inside of bubbles
+  // format is: {title, array with all the stats}
   const stats = [
-    'Lorem ipsum dolor sit amet', 
-    'Lorem ipsum dolor sit amet, consectetur', 
-    'Lorem ipsum dolor'
+    {title: 'Average Song Duration:', info: getAvgDur().min + ' min and ' + getAvgDur().sec + ' sec'}, 
+    {title: 'Top Artists:', info: artists.slice(0, 3).map(artist => {return artist.name}).join(', ')}, 
+    {title: 'Top Genres:', info: getTopGenres().join(', ')}
   ];
+
+
 
 
   useEffect(() => {
@@ -46,10 +90,15 @@ const PreHomeStats = ( { finishedBG, setRunBlur, setChecked } ) => {
   return(
     <div>
       <div onClick={() => setCount(count => count + 1)} className={styles.windowClick} />
-      {stats.slice(0, count).map((entry, id) => (
+      {stats.slice(0, count).map((stat, id) => (
         <div key={id} style={{top: `${(id + 1) * 25}%`}} className={[styles.bubbleBackground, styles.fixedPosition].join(' ')} >
-          <div style={{fontSize: `${(window.innerWidth + window.innerHeight) / 100}px`}}>
-            {entry}
+          <div style={{fontSize: `${(window.innerWidth + window.innerHeight) / 100}px`, textAlign: 'center'}}>
+            <div>
+              {stat.title}
+            </div>
+            <div>
+              {stat.info}
+            </div>
           </div>
         </div>
       ))}

@@ -34,45 +34,6 @@ const Home = () => {
     // return access token
     return tokenObject.access_token;
   }
-  
-  // finding average duration
-  const getAvgDur = () => {
-    // adding together all durations in array
-    let totalDur = tracks.reduce((total, current) => {
-      return total + (current.duration_ms / 1000);
-    }, 0);
-    
-    // getting average of total durations
-    let avgDur = totalDur / tracks.length;
-
-    // separating average duration into minutes and seconds
-    let min = Math.floor(avgDur / 60);
-    let sec = Math.round(avgDur - (min * 60));
-
-    return {min, sec};
-  }
-
-
-  // finding top genres
-  const getTopGenres = () => {
-    let tempGenres = {};
-
-    // counting number of each genre and putting into object
-    artists.forEach(artist => {
-      artist.genres.forEach(genre => {
-        if (tempGenres.hasOwnProperty(genre)) {
-          ++tempGenres[genre];
-        } else {
-            tempGenres[genre] = 1;
-        }
-      });
-    });
-
-    return Object.entries(tempGenres)
-                 .sort((a,b) => b[1] - a[1])
-                 .slice(0, 5)
-                 .map(genre => { return genre[0]; });
-  }
 
   
   const getTop = (type, timeRange) => {
@@ -110,45 +71,31 @@ const Home = () => {
     }
   }, [accessToken]);
 
-  
 
-  const renderChecked = () => {
-    if (!checked) {
-      return (
-        <PreHome tracks={tracks} artists={artists} setChecked={setChecked}/>
-      );
-    }
 
+  if (!checked) {
     return (
-      <div>
-        <div>
-          access token: {accessToken}
-        </div>
-        <br />
-        <Music accessToken={accessToken} tracks={tracks} artists={artists}/>
-        <div>
-          Top Track Names: 
-          {tracks.map((track, id) => (<ul key={id}>{track.name}</ul>))}
-          Top Track Uris:
-          {tracks.map((track, id) => (<ul key={id}>{track.uri}</ul>))}
-          Average Track Duration: 
-          <ul>{getAvgDur().min} minutes and {getAvgDur().sec} seconds</ul>
-          Top Artist Names : 
-          {artists.map((artist, id) => (<ul key={id}>{artist.name}</ul>))}
-          Top Artist Genres : 
-          {getTopGenres().map((genre, id) => (<ul key={id}>{genre}</ul>))}
-        </div>
-      </div>
+      <PreHome tracks={tracks} artists={artists} setChecked={setChecked}/>
     );
   }
 
   return (
     <div>
-      {renderChecked()}
+      <div>
+        access token: {accessToken}
+      </div>
+      <br />
+      <Music accessToken={accessToken} tracks={tracks} artists={artists} setChecked={setChecked}/>
+      <div>
+        Top Track Names: 
+        {tracks.map((track, id) => (<ul key={id}>{track.name}</ul>))}
+        Top Track Uris:
+        {tracks.map((track, id) => (<ul key={id}>{track.uri}</ul>))}
+        Top Artist Names : 
+        {artists.map((artist, id) => (<ul key={id}>{artist.name}</ul>))}
+      </div>
     </div>
   );
-
-  
 }
 
 export default Home;

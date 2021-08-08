@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 //*****************************************************
 
 
-const Music = ({ accessToken, tracks, artists }) => {
+const Music = ({ accessToken, tracks, artists, setChecked }) => {
   const SONGLENGTH = 9000; // in milliseconds
 
   // device related hooks
@@ -112,13 +112,8 @@ const Music = ({ accessToken, tracks, artists }) => {
         playMusic(curSongCount, curSongPos);
     }
     else {
-        /*setClear(true);*/
         clear();
-        
-        // pauses music
         pauseMusic();
-
-        //setAfterPause(true);
     }
   }
 
@@ -192,7 +187,9 @@ const Music = ({ accessToken, tracks, artists }) => {
 
 
   useEffect(() => {
-    if (accessToken !== '' && !loaded) {
+    let mounted = true;
+
+    if (accessToken !== '' && !loaded && mounted) {
       setLoaded(true);
 
       const script = document.createElement('script');
@@ -246,11 +243,15 @@ const Music = ({ accessToken, tracks, artists }) => {
       player.connect();
       };
     }
+
+    return () => mounted = false;
   }, [accessToken]);
 
 
   // resumes music in case song ends before interval ends
   useEffect(() => {
+    let mounted = true;
+
     if (songEnded === true) {
       clear();
       playMusic(curSongCount + 1); // plays next song
@@ -258,19 +259,24 @@ const Music = ({ accessToken, tracks, artists }) => {
       // SDK changes state a couple of times, so we need to 
       // wait (1.5 seconds) until it stops changing to reset songEnded
       setTimeout(() => {
-        setSongEnded(false);
+        if (mounted) setSongEnded(false);
       }, 1500);
     }
+
+    return () => mounted = false;
   }, [songEnded]);
 
 
   // driver function to play music when page is loaded
   useEffect(() => {
-    if (deviceId != '' && tracks.length && !played) {
+    let mounted = true;
+
+    if (deviceId != '' && tracks.length && !played && mounted) {
       setPlayed(true);
       playMusic(0);
     }
     
+    return () => mounted = false;
   }, [deviceId, tracks, accessToken]);
   
   
@@ -278,10 +284,18 @@ const Music = ({ accessToken, tracks, artists }) => {
 
   return (
     <div>
+      <button onClick={() => {
+        clear();
+        pauseMusic();
+        // pause, so spotify player can stop everything before component stops rendering
+        setTimeout(() => setChecked(false), 500); 
+      }}>
+        go back
+      </button>
       <div>
         Currently Playing: {tracks[curSongCount].name}
       </div>
-      <button onClick={toggleMusic}>
+      <button onClick={() => toggleMusic()}>
         toggle music
       </button>
     </div>
