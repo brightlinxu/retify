@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import styles from '../styles/PreHome.module.css'
 
-const PreHomeStats = () => {
-  const [count, setCount] = useState(1);
+const PreHomeStats = ( { finishedBG, setRunBlur } ) => {
+  const [count, setCount] = useState(0);
   const [int, setInt] = useState(null);
 
-  const testArr = [
+  const stats = [
     'Lorem ipsum dolor sit amet', 
     'Lorem ipsum dolor sit amet, consectetur', 
     'Lorem ipsum dolor'
@@ -13,6 +13,11 @@ const PreHomeStats = () => {
 
 
   const displayInterval = (tempCount, intervalTime) => {
+    if (tempCount === 0) {
+      ++tempCount;
+      setCount(tempCount);
+      setRunBlur(true);
+    }
     if (tempCount < 3) {
       setInt(setInterval(() => {
         if (tempCount === 3) {
@@ -25,25 +30,31 @@ const PreHomeStats = () => {
     }
   }
 
-  useEffect(() => {
-    displayInterval(1);
-  }, []);
-
-  const func = () => {
+  const showNext = () => {
+    // stop old interval and start blur effect
     clearInterval(int);
-    let tempCount = count + 1;
-    displayInterval(tempCount);
+    setRunBlur(true);
+
+    // start new interval
+    let tempCount = count + 1; 
+    displayInterval(tempCount); 
     setCount(tempCount);
   }
+
+  useEffect(() => {
+    if (finishedBG && count === 0) showNext();
+  }, [finishedBG]);
+
+  
 
 
   return(
     <div>
-      <button onClick={() => func()} style={{width: '100%', height: '50px'}}>
+      <button onClick={() => showNext()} style={{width: '100%', height: '50px'}}>
         next bubble
       </button>
       <div className={styles.boxLayout} >
-        {testArr.slice(0, count).map((entry, id) => (
+        {stats.slice(0, count).map((entry, id) => (
           <div key={id} className={styles.boxBackground}>
             <div className={styles.boxText}>
               {entry}

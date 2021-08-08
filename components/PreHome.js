@@ -6,6 +6,7 @@ import styles from '../styles/PreHome.module.css';
 const PreHome = ( { tracks, artists, setChecked } ) => {
   const picInterval = 60;
 
+  const [runBlur, setRunBlur] = useState(false);
   const [finishedBG, setFinishedBG] = useState(false);
 
 
@@ -14,8 +15,8 @@ const PreHome = ( { tracks, artists, setChecked } ) => {
       <button onClick={() => {setChecked(true)}}>
         see my stats!
       </button>
-      <PreHomeBG tracks={tracks} artists={artists} picInterval={picInterval} setFinishedBG={setFinishedBG}/>
-      {finishedBG && <PreHomeStats />}
+      <PreHomeBG tracks={tracks} artists={artists} picInterval={picInterval} setFinishedBG={setFinishedBG} runBlur={runBlur}/>
+      <PreHomeStats finishedBG={finishedBG} setRunBlur={setRunBlur}/>
     </div>
   );
 }

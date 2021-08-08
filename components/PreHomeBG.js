@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from '../styles/PreHome.module.css';
 
-const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG } ) => {
+const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur } ) => {
   const positions = [{left: '34%', top: '41%'}, // row = pic ID + 6
                      {left: '88%', top: '23%'},
                      {left: '11%', top: '85%'},
@@ -66,8 +66,28 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG } ) => {
     return Array.from(uniquePics);
   }
 
+  // gradually blurs the images 
+  const gradualBlur = () => {
+    let tempBlur = 0;
+
+    let interval = setInterval(() => {
+      if (tempBlur >= 2) {
+        clearInterval(interval);
+      }
+
+      tempBlur = tempBlur + 0.1;
+      setBlur(tempBlur);
+    }, 50);
+  }
 
 
+
+  // run blur effect if user clicks window to see boxes earlier
+  useEffect(() => {
+    if (runBlur) {
+      gradualBlur();
+    }
+  }, [runBlur]);
 
   // counter to fade in pictures one by one
   useEffect(() => {
@@ -78,11 +98,12 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG } ) => {
       const interval = setInterval(() => {
         if (tempCount === positions.length) {
           clearInterval(interval);
+          // alert that background has all faded in after 1 second
           let timeout = setTimeout(() => {
             setFinishedBG(true);
-            setBlur(0.5);
-          }, 1500);
+          }, 1000);
         }
+
         if (mounted) {
           ++tempCount;
           setCount(tempCount);
@@ -92,6 +113,7 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG } ) => {
       return () => mounted = false; // fix mounting error
     }
   }, [startCount]);
+
 
 
   if (tracks.length !== 0 && artists.length !== 0) {
