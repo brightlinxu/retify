@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Music from '../components/Music.js';
 import { getUrl } from '../components/AuthUrl.js';
 import PreHome from '../components/PreHome.js';
+import TrackStats from '../components/TrackStats.js';
 import styles from '../styles/Home.module.css';
 
 const Home = () => {
@@ -81,6 +82,8 @@ const Home = () => {
   else {
     return (
       <div>
+        <TrackStats />
+        {/*
         <div>
           access token: {accessToken}
         </div>
@@ -94,6 +97,7 @@ const Home = () => {
           Top Artist Names : 
           {artists.map((artist, id) => (<ul key={id}>{artist.name}</ul>))}
         </div>
+        */}
       </div>
     );
   }
