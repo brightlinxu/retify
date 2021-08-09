@@ -92,7 +92,7 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
       <div onClick={() => setCount(count => count + 1)} className={styles.windowClick} />
       {stats.slice(0, count).map((stat, id) => (
         <div key={id} style={{top: `${(id + 1) * 25}%`}} className={[styles.bubbleBackground, styles.fixedPosition].join(' ')} >
-          <div style={{fontSize: `${(window.innerWidth + window.innerHeight) / 100}px`, textAlign: 'center'}}>
+          <div style={{fontSize: `${(window.innerWidth + window.innerHeight) / 100}px`}} className={styles.text}>
             <div>
               {stat.title}
             </div>

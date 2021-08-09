@@ -73,13 +73,13 @@ const Home = () => {
   }, [accessToken]);
 
 
-
+  /*
   if (!checked) {
     return (
       <PreHome tracks={tracks} artists={artists} setChecked={setChecked}/>
     );
   }
-  else {
+  else {*/
     return (
       <div>
         <TrackStats />
@@ -100,7 +100,7 @@ const Home = () => {
         */}
       </div>
     );
-  }
+  /*}*/
 }
 
 export default Home;

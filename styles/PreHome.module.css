@@ -30,6 +30,11 @@
   height: 100%;
 }
 
+.text {
+  text-align: 'center';
+  cursor: default;
+}
+
 
 @keyframes fadeIn {
   0% {opacity:0;}
