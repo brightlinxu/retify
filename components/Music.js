@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 
 const Music = ({ accessToken, tracks, artists, setChecked }) => {
   const SONGLENGTH = 9000; // in milliseconds
+  const CROSSFADEINT = 80; // in milliseconds
 
   // device related hooks
   const [deviceId, setDeviceId] = useState('');
@@ -30,6 +31,10 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
   const [cfuTimeout, setCfuTimeout] = useState(null);
   const [cfuInterval, setCfuInterval] = useState(null);
   const [cfdInterval, setCfdInterval] = useState(null);
+  const [bgTimeout, setBgTimeout] = useState(null);
+
+  let canUnmount = false;
+  
 
   const randomizer = (track) => {
     if (track.duration_ms < 30000) { // in case song is less than 30 seconds
@@ -42,8 +47,6 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
 
 
   const playMusic = (counter, currentPosition) => {
-    console.log(Object.keys(tracks).length);
-    console.log(counter);
     if (counter === Object.keys(tracks).length) counter = 0; // loop back around
     if (currentPosition === undefined) { // randomize start
       currentPosition = randomizer(tracks[counter]);
@@ -58,10 +61,12 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
         if (res.ok) { 
           console.log(`CURRENTLY PLAYING ${tracks[counter].name}`);
 
+          canUnmount = false; // cannot unmount now because music is playing
+
           // playing the background music
-          let timeout = setTimeout(() => {
+          setBgTimeout(setTimeout(() => {
             backgroundMusic(counter);
-          }, 500);
+          }, 500));
 
         }
         else console.log('ERROR PLAYING MUSIC');
@@ -77,7 +82,10 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
       .then(res => {
         if (res.ok) {
           console.log('PAUSED MUSIC');
+          setMusicPaused(true);
           setVolume(0);
+
+          canUnmount = true; // can unmount now because music has stopped
         }
         else console.log('ERROR PAUSING MUSIC');
       });
@@ -97,23 +105,24 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
 
   // clears all the timeouts and intervals controlling background music
   const clear = () => {
-    console.log('CLEARED');
     clearTimeout(musicTimeout);
     clearTimeout(musicTimeout2);
     clearTimeout(cfuTimeout);
     clearInterval(cfuInterval);
     clearInterval(cfdInterval);
+    clearTimeout(bgTimeout);
+    console.log('CLEARED');
   }
 
   // plays and pauses the music
   const toggleMusic = () => {
     if (musicPaused) {
-        // if music is paused, play the song from where it stopped
-        playMusic(curSongCount, curSongPos);
+      // if music is paused, play the song from where it stopped
+      playMusic(curSongCount, curSongPos);
     }
     else {
-        clear();
-        pauseMusic();
+      clear();
+      pauseMusic();
     }
   }
 
@@ -133,7 +142,7 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
       if (counter < 0) {
           clearInterval(interval);
       }
-    }, 80);
+    }, CROSSFADEINT);
   
     setCfdInterval(interval);
     
@@ -154,7 +163,7 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
       if (counter > 100) {
           clearInterval(interval);
       }
-    }, 80);
+    }, CROSSFADEINT);
 
     setCfuInterval(interval);
 
@@ -165,16 +174,16 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
   }
 
   const backgroundMusic = (counter) => {
-    let crossfadeDur = 4640; // 58 * crossfade interval
+    let crossfadeDur = 58 * CROSSFADEINT; // each interval is repeated 58 times
     
     // records current song when music pauses
     setCurSongCount(counter);
     ++counter;
 
-    // if user pauses then plays, don't use crossfadeUp effect
-
+    // cross fade up when song starts
     crossfadeUp(crossfadeDur);
 
+    // wait for crossfade down to start and playing next song
     setMusicTimeout(setTimeout(() => {
         crossfadeDown();
 
@@ -286,14 +295,14 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
     <div>
       <button onClick={() => {
         // pause, so spotify player can stop everything before component stops rendering
-        setTimeout(() => {
+        if (!canUnmount) {
           clear();
           pauseMusic();
-
-          setTimeout(() => {
-            setChecked(false);
-          }, 500);
-        }, 1000);
+        }
+        
+        setTimeout(() => {
+          if (canUnmount) setChecked(false);
+        }, 500);
       }}>
         go back
       </button>
