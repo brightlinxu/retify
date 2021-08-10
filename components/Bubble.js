@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import styles from '../styles/Bubble.module.css'
 
-const Bubble = ( { id, originalBbl, clickedBbl, clicked } ) => {
-  const BIGBBLSIZE = 120;
-  const MOVEDISTBELOW = 20;
-  const MOVEDISTABOVE = 35;
+const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransition } ) => {
+  const BIGSIZE = 110; // in px
+  const MOVEDIST = 25; // in px
+  const MOVEDUR = 600; // in ms
   
   const [bblPos, setBblPos] = useState(originalBbl);
   const [hover, setHover] = useState(false);
+  const [time, setTime] = useState(null);
   
 
   // deep comparison of 2 bubbles (which are objects)
@@ -29,17 +30,16 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked } ) => {
     let slope = getSlope();
 
     if (slope === 0) { // above and below clicked bubble
-      let tempDist = MOVEDISTBELOW;
-      if (originalBbl.y < clickedBbl.y) tempDist = (MOVEDISTABOVE * -1);
-      if (originalBbl.x < clickedBbl.x) tempDist = (MOVEDISTBELOW * -1);
+      let moveDist = MOVEDIST;
+      if (originalBbl.y < clickedBbl.y || originalBbl.x < clickedBbl.x) moveDist = MOVEDIST * -1;
 
       if (originalBbl.y === clickedBbl.y)
-        return {newX: originalBbl.x + tempDist, newY: originalBbl.y};
-      return {newX: originalBbl.x, newY: originalBbl.y + tempDist};
+        return {newX: originalBbl.x + moveDist, newY: originalBbl.y};
+      return {newX: originalBbl.x, newY: originalBbl.y + moveDist};
     }
     
-    let moveDist = MOVEDISTBELOW;
-    if (originalBbl.y < clickedBbl.y) moveDist = MOVEDISTABOVE;   
+    let moveDist = MOVEDIST;
+    if (originalBbl.y < clickedBbl.y) moveDist = MOVEDIST;   
 
     let xdist = Math.sqrt((moveDist ** 2) / (1 + (getSlope() ** 2)));
     let ydist = xdist * slope;
@@ -52,7 +52,7 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked } ) => {
   const getNewPos = () => {
     // if the bubble clicked is this bubble
     if (bblEqual(clickedBbl, originalBbl)) {
-      return {x: originalBbl.x, y: originalBbl.y, size: BIGBBLSIZE};
+      return {x: originalBbl.x, y: originalBbl.y, size: BIGSIZE};
     }
     
     // if the bubble clicked isn't this bubble
@@ -75,16 +75,24 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked } ) => {
     updatePos();
   }, [clickedBbl]);
 
+
+  // style shortcuts for multiple browser support
+  const transformSC = `matrix(1, 0, 0, 1, ${bblPos.x}, ${bblPos.y}) translate(-50%, -50%) scale(${bblPos.size * (hover ? 1.05 : 1) / originalBbl.size})`;
+  const transitionSC = `${transition ? `${MOVEDUR}ms cubic-bezier(0.34, 1.56, 0.64, 1)` : '0.1s linear'}`;
+
   
   return(
-    <div style={{transform: `matrix(1, 0, 0, 1, ${bblPos.x}, ${bblPos.y}) translate(-50%, -85%) ${hover ? 'scale(1.1)' : ''}`, transition: `${hover ? '0.1s' : '0.6s cubic-bezier(0.34, 1.56, 0.64, 1)'}`, width: `${bblPos.size}px`, height: `${bblPos.size}px`}}
-      className={styles.circle} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}
-      onClick={() => {
-        clicked(id);
-        setHover(false);
+    <div style={{
+        transform: transformSC, WebkitTransform: transformSC, MozTransform: transformSC, OTransform: transformSC, MsTransform: transformSC,
+        transition: transitionSC, WebkitTransform: transitionSC, MozTransform: transitionSC, OTransform: transitionSC, MsTransform: transitionSC,
+        width: `${originalBbl.size}px`, height: `${originalBbl.size}px`
       }}
+      className={styles.circle} 
+      onMouseEnter={() => {setHover(true);}} 
+      onMouseLeave={() => {setHover(false);}}
+      onClick={() => {if (!transition) {clearTimeout(time); setTransition(true); clicked(id); setTime(setTimeout(() => setTransition(false), MOVEDUR))}}}
     >
-      <div className={styles.text}>
+      <div style={{fontSize: `${originalBbl.size}%`}}className={styles.text}>
         bubble{id + 1}
       </div>
     </div>

@@ -15,6 +15,7 @@ const Bubbles = () => {
 
   const [lastClicked, setLastClicked] = useState(null);
   const [clickedBbl, setClickedBbl] = useState(null);
+  const [transition, setTransition] = useState(false);
 
 
   const clicked = (id) => {
@@ -32,7 +33,7 @@ const Bubbles = () => {
   return (
     <div>
       {originalBbls.map((bbl, id) => (
-        <Bubble key={id} id={id} originalBbl={bbl} clickedBbl={clickedBbl} clicked={clicked}/>
+        <Bubble key={id} id={id} originalBbl={bbl} clickedBbl={clickedBbl} clicked={clicked} transition={transition} setTransition={setTransition}/>
       ))}
     </div>
   );

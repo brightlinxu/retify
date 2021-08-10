@@ -293,7 +293,7 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
 
   return (
     <div>
-      <button onClick={() => {
+      <button style={{width: '300px', height: '300px'}} onClick={() => {
         // pause, so spotify player can stop everything before component stops rendering
         if (!canUnmount) {
           clear();
@@ -307,7 +307,7 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
         go back
       </button>
       <div>
-        Currently Playing: {tracks[curSongCount].name}
+        Currently Playing: {tracks.length !== 0 && tracks[curSongCount].name}
       </div>
       <button onClick={() => toggleMusic()}>
         toggle music
