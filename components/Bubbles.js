@@ -5,8 +5,12 @@ import styles from '../styles/Bubble.module.css';
 const Bubbles = () => {
   const originalBbls = [
     {x: 300, y: 300, size: 80},
-    {x: 210, y: 300, size: 80},
-    {x: 255, y: 225, size: 80},
+    {x: 220, y: 340, size: 80},
+    {x: 225, y: 250, size: 80},
+    {x: 375, y: 350, size: 80},
+    {x: 300, y: 390, size: 80},
+    {x: 375, y: 250, size: 80},
+    {x: 300, y: 210, size: 80}
   ];
 
   const [lastClicked, setLastClicked] = useState(null);

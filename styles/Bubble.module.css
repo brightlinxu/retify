@@ -1,14 +1,17 @@
 .circle {
   position: absolute;
+  cursor: pointer;
   background: lightblue;
   border-radius: 50%;
-  transition: 0.6s;
-  -webkit-transition: 0.6s;
+  transition: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  -webkit-transition: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  -moz-transition: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  -o-transition: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  -ms-transition: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .text {
   font-size: 80%;
-  cursor: default;
   position: absolute;
   top: 50%;
   left: 50%;
