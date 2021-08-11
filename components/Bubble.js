@@ -1,15 +1,41 @@
 import { useEffect, useState } from 'react';
 import styles from '../styles/Bubble.module.css'
 
-const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransition } ) => {
-  const BIGSIZE = 110; // in px
-  const MOVEDIST = 25; // in px
+const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransition, track } ) => {
+  const BIGSIZE = 230; // in px
+  const MOVEDIST = 50; // in px
   const MOVEDUR = 600; // in ms
   
   const [bblPos, setBblPos] = useState(originalBbl);
   const [hover, setHover] = useState(false);
   const [time, setTime] = useState(null);
-  
+  const [thisBblClicked, setThisBblClicked] = useState(false);
+
+
+  const getDate = (date) => {
+    const separated = date.split('-'); // [0] = year, [1] = month, [2] = day
+    
+    let year = separated[0];
+    let month = separated[1];
+    let day = separated[2];
+
+    switch(month) {
+      case '01': month = 'January'; break;
+      case '02': month = 'February'; break;
+      case '03': month = 'March'; break;
+      case '04': month = 'April'; break;
+      case '05': month = 'May'; break;
+      case '06': month = 'June'; break;
+      case '07': month = 'July'; break;
+      case '08': month = 'August'; break;
+      case '09': month = 'September'; break;
+      case '10': month = 'October'; break;
+      case '11': month = 'November'; break;
+      case '12': month = 'December'; break;
+    }
+
+    return `${month} ${day[0] === '0' ? day[1] : day}, ${year}`;
+  }
 
   // deep comparison of 2 bubbles (which are objects)
   const bblEqual = (bbl1, bbl2) => {
@@ -18,6 +44,7 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
     bbl1.size === bbl2.size;
   }
 
+  // get slope of 2 points (return 0 if slope is undefined)
   const getSlope = () => {
     let ydif = originalBbl.y - clickedBbl.y;
     let xdif = originalBbl.x - clickedBbl.x;
@@ -26,6 +53,7 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
     return ydif / xdif;
   }
 
+  // calculate x and y position for bubble to move to
   const getNewXY = () => {
     let slope = getSlope();
 
@@ -49,21 +77,25 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
     return {newX: originalBbl.x + xdist, newY: originalBbl.y + ydist};
   }
 
+  // return original bubble is current bubble is clicked
+  // return new bubble position if the current bubble isn't clicked
   const getNewPos = () => {
     // if the bubble clicked is this bubble
     if (bblEqual(clickedBbl, originalBbl)) {
+      setThisBblClicked(true);
       return {x: originalBbl.x, y: originalBbl.y, size: BIGSIZE};
     }
     
     // if the bubble clicked isn't this bubble
+    setThisBblClicked(false);
     let { newX, newY } = getNewXY();
-
     return {x: newX, y: newY, size: originalBbl.size};
   }
   
   const updatePos = () => {
     if (clickedBbl === null) { // display original positions
       setBblPos(originalBbl);
+      setThisBblClicked(false);
     }
     else { // display changed positions
       setBblPos(getNewPos());
@@ -92,8 +124,20 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
       onMouseLeave={() => {setHover(false);}}
       onClick={() => {if (!transition) {clearTimeout(time); setTransition(true); clicked(id); setTime(setTimeout(() => setTransition(false), MOVEDUR))}}}
     >
-      <div style={{fontSize: `${originalBbl.size}%`}}className={styles.text}>
-        bubble{id + 1}
+      <div className={styles.rank}>
+        {id + 1}
+      </div>
+      <img src={track.album.images[0].url} className={styles.trackImage}/>
+      <div className={styles.trackText}>
+        <div style={{fontSize: `${originalBbl.size / 2}%`}}>
+          {track && track.name}
+        </div>
+        <div style={{fontSize: `${originalBbl.size / 3}%`}}>
+          {track && track.artists.map(artist => {return artist.name}).join(', ')}
+        </div>
+        <div style={{opacity: `${thisBblClicked ? 1 : 0}`, fontSize: `${originalBbl.size / 2.5}%`}} className={styles.extraText}>
+          Released {getDate(track.album.release_date)}
+        </div>
       </div>
     </div>
   );

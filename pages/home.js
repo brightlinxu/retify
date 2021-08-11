@@ -82,7 +82,7 @@ const Home = () => {
   else {*/
     return (
       <div>
-        <TrackStats />
+        <TrackStats tracks={tracks}/>
         {/*
         <div>
           access token: {accessToken}

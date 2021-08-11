@@ -2,12 +2,12 @@ import { useState } from 'react';
 import Bubbles from './Bubbles.js'
 import styles from '../styles/TrackStats.module.css';
 
-const TrackStats = () => {
+const TrackStats = ( { tracks } ) => {
 
 
   return(
     <div>
-      <Bubbles />
+      <Bubbles tracks={tracks} />
     </div>
   );
 }
