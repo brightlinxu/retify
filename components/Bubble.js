@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from '../styles/Bubble.module.css'
 
 const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransition, track } ) => {
+  const colors =  ['ffd358', 'ffd664', 'ffd96c', 'ffdd7c', 'ffe089', 'ffe59c'];
   const BIGSIZE = 230; // in px
   const MOVEDIST = 50; // in px
   const MOVEDUR = 600; // in ms
@@ -10,6 +11,7 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
   const [hover, setHover] = useState(false);
   const [time, setTime] = useState(null);
   const [thisBblClicked, setThisBblClicked] = useState(false);
+  const [color, setColor] = useState(null);
 
 
   const getDate = (date) => {
@@ -107,6 +109,10 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
     updatePos();
   }, [clickedBbl]);
 
+  useEffect(() => {
+    setColor(colors[Math.floor(Math.random() * colors.length)]);
+  }, []);
+
 
   // style shortcuts for multiple browser support
   const transformSC = `matrix(1, 0, 0, 1, ${bblPos.x}, ${bblPos.y}) translate(-50%, -50%) scale(${bblPos.size * (hover ? 1.05 : 1) / originalBbl.size})`;
@@ -117,7 +123,7 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
     <div style={{
         transform: transformSC, WebkitTransform: transformSC, MozTransform: transformSC, OTransform: transformSC, MsTransform: transformSC,
         transition: transitionSC, WebkitTransform: transitionSC, MozTransform: transitionSC, OTransform: transitionSC, MsTransform: transitionSC,
-        width: `${originalBbl.size}px`, height: `${originalBbl.size}px`
+        width: `${originalBbl.size}px`, height: `${originalBbl.size}px`, background: `#${color}`
       }}
       className={styles.circle} 
       onMouseEnter={() => {setHover(true);}} 
@@ -125,7 +131,7 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
       onClick={() => {if (!transition) {clearTimeout(time); setTransition(true); clicked(id); setTime(setTimeout(() => setTransition(false), MOVEDUR))}}}
     >
       <div className={styles.rank}>
-        {id + 1}
+        {id + 2}
       </div>
       <img src={track.album.images[0].url} className={styles.trackImage}/>
       <div className={styles.trackText}>

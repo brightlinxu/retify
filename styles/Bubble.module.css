@@ -1,7 +1,6 @@
 .circle {
   position: absolute;
   cursor: pointer;
-  background: lightblue;
   border-radius: 50%;
   text-align: center;
 }

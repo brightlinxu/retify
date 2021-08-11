@@ -37,12 +37,12 @@ const Bubbles = ( { tracks } ) => {
       </div>
     );
   }
-  
+
   return (
     <div>
       {originalBbls.map((bbl, id) => (
         <Bubble key={id} id={id} originalBbl={bbl} clickedBbl={clickedBbl} clicked={clicked} transition={transition} setTransition={setTransition}
-          track={tracks[id]}
+          track={tracks.slice(1)[id]}
         />
       ))}
     </div>
