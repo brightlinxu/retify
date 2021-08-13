@@ -39,6 +39,7 @@ nav {
   color: #000000;
   border-radius: 18px;
   background: #ffffff;
+  box-shadow: 0 0 4px #000000;
   /*background: linear-gradient(to right, rgba(0, 0, 0, 0.75), rgba(255, 203, 55, 0.7));*/
   /*background: rgba(0, 0, 0, 0.3);*/
   position: fixed;

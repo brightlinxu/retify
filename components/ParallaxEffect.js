@@ -2,7 +2,7 @@ import { Parallax, Background } from 'react-parallax';
 
 const ParallaxEffect = (  { img, text } ) => {
   return(
-    <Parallax bgImage={img} strength={-240}>
+    <Parallax bgImage={img} strength={-200}>
       <div style={{height: '100vh'}}>
         <div style={{
           fontFamily: 'Montserrat-SemiBold',
