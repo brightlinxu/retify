@@ -109,6 +109,7 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
     updatePos();
   }, [clickedBbl]);
 
+  // set random color for bubble initially
   useEffect(() => {
     setColor(colors[Math.floor(Math.random() * colors.length)]);
   }, []);
