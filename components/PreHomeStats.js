@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getWindowSize } from './WindowSize';
 import styles from '../styles/PreHome.module.css'
 
 const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } ) => {
@@ -92,7 +93,7 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
       <div onClick={() => setCount(count => count + 1)} className={styles.windowClick} />
       {stats.slice(0, count).map((stat, id) => (
         <div key={id} style={{top: `${(id + 1) * 25}%`}} className={[styles.bubbleBackground, styles.fixedPosition].join(' ')} >
-          <div style={{fontSize: `${(window.innerWidth + window.innerHeight) / 100}px`}} className={styles.text}>
+          <div style={{fontSize: `${(getWindowSize().width + getWindowSize().height) / 100}px`}} className={styles.text}>
             <div>
               {stat.title}
             </div>

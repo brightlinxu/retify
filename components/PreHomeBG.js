@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getWindowSize } from './WindowSize';
 import styles from '../styles/PreHome.module.css';
 
 const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur } ) => {
@@ -119,8 +120,9 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur } ) =
 
 
   if (tracks.length !== 0 && artists.length !== 0) {
-    const baseSize = (window.innerHeight + window.innerWidth) / 13; // 13 and 615 are just numbers I picked
-    const changingSize = (window.innerHeight + window.innerWidth) / 615; 
+    const windowSize = getWindowSize();
+    const baseSize = (windowSize.width + windowSize.height) / 13; // 13 and 615 are just numbers I picked
+    const changingSize = (windowSize.width + windowSize.height) / 615; 
 
     if (!gotSrcs) {
       setSrcs(getPicSrcs());

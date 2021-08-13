@@ -20,20 +20,28 @@
   font-display: swap;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 div {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat-Regular', sans-serif;
   font-weight: 400;
   text-decoration: none;
 }
 
 nav {
+  margin: 4px 10px;
   padding: 27.5px 35px;
-  box-sizing: border-box;
   font-size: 30px;
-  color: white;
-  background-color: #727272;
+  color: #000000;
+  border-radius: 18px;
+  background: #ffffff;
+  /*background: linear-gradient(to right, rgba(0, 0, 0, 0.75), rgba(255, 203, 55, 0.7));*/
+  /*background: rgba(0, 0, 0, 0.3);*/
   position: fixed;
-  width: 100%;
   height: 0;
   top: 0;
   left: 0;
@@ -44,8 +52,6 @@ nav {
 }
 
 nav ul {
-  padding: 0;
-  margin: 0;
   list-style: none;
   line-height: 30px;
 }
@@ -55,5 +61,10 @@ nav li {
   display: inline-block;
   margin-left: 30px;
   font-size: 20px;
+}
+
+#center {
+  display: flex;
+  justify-content: center;
 }
 

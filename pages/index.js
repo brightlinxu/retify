@@ -1,12 +1,21 @@
-import ManualLogin from '../components/ManualLogin.js'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import ParallaxEffect from '../components/ParallaxEffect.js';
+import ManualLogin from '../components/ManualLogin.js';
+import styles from '../styles/Index.module.css';
 
-export default function Index() {
+const Index = () => {
   return (
-    <div>
-      
+    <div className={styles.background}>
+      <ParallaxEffect img={'/images/remember.png'} text={'Remember'}/>
+      <div className={styles.inBetweenText}>
+        Lorem Ipsum
+      </div>
+      <ParallaxEffect img={'/images/rediscover.png'} text={'Rediscover'}/>
+      <div className={styles.inBetweenText}>
+        Lorem Ipsum
+      </div>
+      <ParallaxEffect img={'/images/relive.png'} text={'Relive'}/>
     </div>
   )
 }
+
+export default Index;
