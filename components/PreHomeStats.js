@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { getWindowSize } from './WindowSize';
+import { getWindowSize } from '../utilities/getWindowSize.js';
 import styles from '../styles/PreHome.module.css'
 
 const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } ) => {
+  const windowSize = getWindowSize();
   const [count, setCount] = useState(0);
   const [time, setTime] = useState(null);
-
 
   // finding average duration
   const getAvgDur = () => {
@@ -87,13 +87,13 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
 
   
 
-
+  
   return(
     <div>
       <div onClick={() => setCount(count => count + 1)} className={styles.windowClick} />
       {stats.slice(0, count).map((stat, id) => (
         <div key={id} style={{top: `${(id + 1) * 25}%`}} className={[styles.bubbleBackground, styles.fixedPosition].join(' ')} >
-          <div style={{fontSize: `${(getWindowSize().width + getWindowSize().height) / 100}px`}} className={styles.text}>
+          <div style={{fontSize: `${(windowSize.width + windowSize.height) / 100}px`}} className={styles.text}>
             <div>
               {stat.title}
             </div>

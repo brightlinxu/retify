@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { getWindowSize } from './WindowSize';
+import { getWindowSize } from '../utilities/getWindowSize.js';
 import styles from '../styles/PreHome.module.css';
 
 const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur } ) => {
+  const windowSize = getWindowSize();
   // array that holds all positions of background iamges
   const positions = [ // row = pic ID + 7
     {left: '34%', top: '41%'}, 
@@ -118,12 +119,10 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur } ) =
   }, [startCount]);
 
 
+  const baseSize = (windowSize.width + windowSize.height) / 13; // 13 and 615 are just numbers I picked
+  const changingSize = (windowSize.width + windowSize.height) / 615; 
 
   if (tracks.length !== 0 && artists.length !== 0) {
-    const windowSize = getWindowSize();
-    const baseSize = (windowSize.width + windowSize.height) / 13; // 13 and 615 are just numbers I picked
-    const changingSize = (windowSize.width + windowSize.height) / 615; 
-
     if (!gotSrcs) {
       setSrcs(getPicSrcs());
       setGotSrcs(true);
