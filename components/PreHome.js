@@ -18,7 +18,7 @@ const PreHome = ( { tracks, artists, setChecked } ) => {
         see my stats!
       </button>
       <PreHomeBG tracks={tracks} artists={artists} picInterval={picInterval} setFinishedBG={setFinishedBG} runBlur={runBlur} x={x} y={y} setx={setx} sety={sety}/>
-      {/*<PreHomeStats tracks={tracks} artists={artists} finishedBG={finishedBG} setRunBlur={setRunBlur} setChecked={setChecked}/>*/}
+      <PreHomeStats tracks={tracks} artists={artists} finishedBG={finishedBG} setRunBlur={setRunBlur} setChecked={setChecked}/>
     </div>
   );
 }

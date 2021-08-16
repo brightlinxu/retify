@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Music from '../components/Music.js';
-import { getUrl } from '../components/AuthUrl.js';
+import { getAuthUrl } from '../utilities/getAuthUrl.js';
 import PreHome from '../components/PreHome.js';
 import TrackStats from '../components/TrackStats.js';
 import styles from '../styles/Home.module.css';
@@ -59,7 +59,7 @@ const Home = () => {
       setAccessToken(getAccessToken()); // get access token
       
       if (accessToken === undefined) { // access token doesn't exist
-        router.push(getUrl('false')); // sign user in again
+        router.push(getAuthUrl('false')); // sign user in again
       }
       else if (accessToken !== '') { // access token exists
         setHasData(true); // makes sure these functions don't run again during re-renders

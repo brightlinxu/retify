@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
-import { getUrl } from './AuthUrl.js'
+import { getAuthUrl } from '../utilities/getAuthUrl.js'
 
 const ManualLogin = ( { displayStyle } ) => {
   const router = useRouter();
 
   return (
-    <div onClick={ () => { router.push(getUrl('true')) } } 
+    <div onClick={ () => { router.push(getAuthUrl('true')) } } 
       style={{display: `${displayStyle}`, 
               cursor: 'pointer', 
               fontSize: '20px',

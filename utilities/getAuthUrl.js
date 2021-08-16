@@ -1,4 +1,4 @@
-export const getUrl = (showDialog) => {
+export const getAuthUrl = (showDialog) => {
   // generates state for auth url
   const getStateKey = (stateLength) => {
     var key = '';
