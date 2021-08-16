@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { getWindowSize } from '../utilities/getWindowSize.js';
+import { useSpring, animated } from 'react-spring';
 import styles from '../styles/PreHome.module.css';
 
-const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur } ) => {
+const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y } ) => {
   const windowSize = getWindowSize();
   // array that holds all positions of background iamges
   const positions = [ // row = pic ID + 7
@@ -38,12 +39,21 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur } ) =
     {left: '92%', top: '67%'}
   ];
 
-
+  
   const [count, setCount] = useState(0);
   const [srcs, setSrcs] = useState([]);
   const [gotSrcs, setGotSrcs] = useState(false);
   const [startCount, setStartCount] = useState(false);
   const [blur, setBlur] = useState(0);
+
+
+
+  // used for mousemove parallex effect
+  const [spring, setSpring] = useSpring(() => ({ 
+    xy: [0, 0], config: { mass: 10, tension: 550, friction: 140 } 
+  }));
+  setSpring({ xy: [x - windowSize.width / 2, y - windowSize.height / 2] });
+
 
 
   // returns a set of unique album/artist pictures
@@ -133,8 +143,11 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur } ) =
       <div>
         {srcs.slice(0, count).map((src, id) => (
           <div key={id} style={{left: `${positions[id].left}`, top: `${positions[id].top}`, 
-          filter: `blur(${blur}px)`, zIndex: `${(id + 1) * -1}`}} className={styles.fixedPosition}>
-            <img src={src} height={baseSize - (id * changingSize)} className={styles.imgFadeIn}/>
+          filter: `blur(${blur}px)`, zIndex: `${(id + 1) * -1}`}} className={styles.fixedPosition} 
+          >
+            <animated.div style={{transform: spring.xy.to((x, y) => `translate3d(${x / ((id * 0.5) + 12)}px, ${y / ((id * 0.5) + 12)}px, 0)`)}}>
+              <img src={src} height={baseSize - (id * changingSize)} className={styles.imgFadeIn}/>
+            </animated.div>
           </div>
         ))}
       </div>

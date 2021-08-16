@@ -45,6 +45,11 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
                  .map(genre => { return genre[0]; });
   }
 
+  const handleClick = () => {
+    setCount(count => count + 1);
+  }
+
+  
 
   // contains stats that are displayed inside of bubbles
   // format is: {title, array with all the stats}
@@ -85,12 +90,14 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
     if (finishedBG && count === 0) setCount(1);
   }, [finishedBG])
 
-  
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
 
   
   return(
     <div>
-      <div onClick={() => setCount(count => count + 1)} className={styles.windowClick} />
       {stats.slice(0, count).map((stat, id) => (
         <div key={id} style={{top: `${(id + 1) * 25}%`}} className={[styles.bubbleBackground, styles.fixedPosition].join(' ')} >
           <div style={{fontSize: `${(windowSize.width + windowSize.height) / 100}px`}} className={styles.text}>
