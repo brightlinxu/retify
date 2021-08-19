@@ -5,6 +5,8 @@ import { getWindowSize } from '../utilities/getWindowSize.js';
 const Navbar = () => {
   const windowSize = getWindowSize();
 
+  return<div/>; // temporarily hide navbar
+
   return (
     <nav style={{width: `${windowSize.width - 20}px`}}>
       <a href='/' >

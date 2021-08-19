@@ -5,6 +5,56 @@
 }
 
 .background {
-  background-color: #f8f8ff
+  background-color: #edeaea;
 }
+
+.section1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.section1Img {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 50%;
+  height: 50%;
+}
+
+.section2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+}
+.section2Text {
+  display: inline-block;
+  letter-spacing: 10px;
+}
+
+.section3 {
+  position: relative;
+  height: 100vh;
+  margin-top: 25vh;
+}
+.section3Box {
+  position: absolute;
+  top: 0%;
+  left: 10%;
+  padding: 5%;
+  margin-right: 20%;
+  max-width: 600px;
+  border-radius: 10px;
+  text-align: center;
+  background: rgba(248, 248, 255, 0.85);
+}
+.section3Img {
+  position: absolute;
+  max-width: 600px;
+  margin-right: 15%;
+  left: 15%;
+}
+
+
 

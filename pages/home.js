@@ -105,8 +105,6 @@ const Home = () => {
 
 export default Home;
 
-// CHECK OUT SECTION SCROLLING
-
 
 
 
