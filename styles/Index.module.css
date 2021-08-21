@@ -24,36 +24,70 @@
 
 .section2 {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 60vh;
+  height: 80vh;
 }
 .section2Text {
   display: inline-block;
   letter-spacing: 10px;
 }
+.section2Img {
+  margin: 1%;
+  width: 40%;
+  height: 8%;
+}
 
 .section3 {
   position: relative;
-  height: 100vh;
-  margin-top: 25vh;
+  width: 100vw;
+  margin-top: 50vh;
+}
+.section3Group1 {
+  position: absolute;
+  max-width: 1500px;
+  width: 90%;
+  height: 40%;
 }
 .section3Box {
   position: absolute;
-  top: 0%;
-  left: 10%;
+  left: 12%;
   padding: 5%;
-  margin-right: 20%;
   max-width: 600px;
+  margin-right: 30%;
   border-radius: 10px;
   text-align: center;
-  background: rgba(248, 248, 255, 0.85);
+  background: rgba(248, 248, 255, 0.88);
 }
 .section3Img {
   position: absolute;
-  max-width: 600px;
-  margin-right: 15%;
-  left: 15%;
+  top: -15%;
+  margin-right: 10%;
+  left: 10%;
+}
+.section3BG {
+  position: absolute;
+  right: 5%;
+  height: 60vh;
+  top: -10%;
+}
+
+.section4 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.section4Text {
+  display: inline-block;
+  letter-spacing: 25px;
+}
+
+.section5 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 
