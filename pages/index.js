@@ -2,7 +2,9 @@ import ParallaxEffect from '../components/ParallaxEffect.js';
 import ManualLogin from '../components/ManualLogin.js';
 import styles from '../styles/Index.module.css';
 import { getWindowSize } from '../utilities/getWindowSize.js'
-import { Parallax, ParallaxProvider } from 'react-scroll-parallax';
+import { Parallax } from 'react-scroll-parallax';
+import ScrollAnimation from 'react-animate-on-scroll';
+import "animate.css";
 
 const Index = () => {
   const windowSize = getWindowSize();
@@ -47,8 +49,14 @@ const Index = () => {
         </div>
       </div>
       <div className={styles.section4} style={{height: `${windowSize.width > windowSize.height ? 60 : 30}vh`}}>
+        <ScrollAnimation animateIn='animate__fadeIn' animateOut='animate__fadeOut'>
+          <div style={{fontSize: `${windowSize.width / 18}px`, letterSpacing: `${(windowSize.width / 60) + 5}px`,
+                       fontFamily: 'Montserrat-SemiBold'}}>
+            DISCOVER
+          </div>
+        </ScrollAnimation>
         <span>
-          {rediscoverStr.split('').map((letter, id) => (
+          {/*rediscoverStr.split('').map((letter, id) => (
             <Parallax key={id} y={[`${((4.5 - id) ** 2) * -5}`, `${((4.5 - id) ** 2) * 5}`]}
             styleInner={{fontSize: `${windowSize.width / 18}px`, fontFamily: 'Montserrat-SemiBold', 
                          letterSpacing: `${(windowSize.width / 60) + 5}px`}}
@@ -56,7 +64,7 @@ const Index = () => {
             >
               {letter}
             </Parallax>
-          ))}
+          ))*/}
         </span>
       </div>
       <div className={styles.section5}>
