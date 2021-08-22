@@ -42,7 +42,6 @@ const TopTrack = ( { topTrack } ) => {
             className={styles.arrow}/>
         </ScrollAnimation>
       </div>
-
     </div>
   );
 }
