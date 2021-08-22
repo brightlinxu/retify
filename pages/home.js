@@ -74,12 +74,12 @@ const Home = () => {
 
 
   
-  if (!checked) {
+  /*if (!checked) {
     return (
       <PreHome tracks={tracks} artists={artists} setChecked={setChecked}/>
     );
   }
-  else {
+  else {*/
     return (
       <div>
         <TrackStats tracks={tracks}/>
@@ -100,7 +100,7 @@ const Home = () => {
         */}
       </div>
     );
-  }
+  /*}*/
 }
 
 export default Home;

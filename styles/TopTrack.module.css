@@ -1,0 +1,47 @@
+.background {
+  position: absolute;
+  top: 43%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -10;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 95vh;
+  margin: 2vh 2vw;
+}
+
+.img {
+  width: 35vh;
+  border-radius: 4%;
+}
+
+.song {
+  margin-top: 6vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  font-family: Montserrat-SemiBold;
+}
+
+.artists {
+  margin-top: 0.5vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  font-family: Montserrat-Light;
+}
+
+.date {
+  margin-top: 9vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  font-family: Montserrat-Regular;
+}
+
+.arrow {
+  margin-top: 15vh;
+}

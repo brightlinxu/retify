@@ -52,7 +52,7 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
   const [spring, setSpring] = useSpring(() => ({ 
     xy: [0, 0], config: { mass: 10, tension: 550, friction: 140 } 
   }));
-  setSpring({ xy: [x - windowSize.width / 2, y - windowSize.height / 2] });
+  setSpring.start({ xy: [x - windowSize.width / 2, y - windowSize.height / 2] });
 
 
 

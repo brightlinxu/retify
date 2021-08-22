@@ -4,7 +4,7 @@ import styles from '../styles/Index.module.css';
 import { getWindowSize } from '../utilities/getWindowSize.js'
 import { Parallax } from 'react-scroll-parallax';
 import ScrollAnimation from 'react-animate-on-scroll';
-import "animate.css";
+import 'animate.css';
 
 const Index = () => {
   const windowSize = getWindowSize();

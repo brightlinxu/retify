@@ -10,7 +10,7 @@ const Bubbles = ( { tracks } ) => {
     {x: 620, y: 350, size: 160},
     {x: 500, y: 475, size: 160},
     {x: 450, y: 300, size: 150},
-    {x: 575, y: 175, size: 150}
+    {x: 575, y: 900, size: 150}
   ];
 
   const [lastClicked, setLastClicked] = useState(null);

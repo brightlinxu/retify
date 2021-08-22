@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import Bubbles from './Bubbles.js'
+import Bubbles from './Bubbles.js';
+import TopTrack from './TopTrack.js';
 import styles from '../styles/TrackStats.module.css';
 
 const TrackStats = ( { tracks } ) => {
 
-
   return(
     <div>
-      <Bubbles tracks={tracks} />
+      <TopTrack topTrack={tracks[0]}/>
+      <Bubbles tracks={tracks}/>
     </div>
   );
 }

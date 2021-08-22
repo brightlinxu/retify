@@ -1,3 +1,12 @@
+@import 'animate.css';
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/Montserrat/Montserrat-Light.ttf');
+  font-style: light;
+  font-weight: 300;
+  font-display: swap;
+}
 @font-face {
   font-family: 'Montserrat';
   src: url('/fonts/Montserrat/Montserrat-Regular.ttf');
@@ -67,5 +76,10 @@ nav li {
 #center {
   display: flex;
   justify-content: center;
+}
+
+#arrowAnimation {
+  animation: pulse;
+  --animate-repeat: 3;
 }
 
