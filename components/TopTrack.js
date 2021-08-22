@@ -10,7 +10,7 @@ const TopTrack = ( { topTrack } ) => {
   const totalWindowSize = windowSize.width + windowSize.height;
 
   if (topTrack === undefined) {
-    return <div />;
+    return <div/>;
   }
 
   return (
