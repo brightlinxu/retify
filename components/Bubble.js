@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getDate } from '../utilities/getReleaseDate.js';
+import ScrollAnimation from 'react-animate-on-scroll';
+import 'animate.css';
 import styles from '../styles/Bubble.module.css'
 
-const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransition, track } ) => {
+const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransition, 
+                  originalChange, setOriginalChange, BIGSIZE, MOVEDIST, track } ) => {
   const colors =  ['ffd358', 'ffd664', 'ffd96c', 'ffdd7c', 'ffe089', 'ffe59c'];
-  const BIGSIZE = 230; // in px
-  const MOVEDIST = 50; // in px
   const MOVEDUR = 600; // in ms
   
   const [bblPos, setBblPos] = useState(originalBbl);
@@ -91,6 +92,14 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
     setColor(colors[Math.floor(Math.random() * colors.length)]);
   }, []);
 
+  // sets new original bubbles when screen width changes
+  useEffect(() => {
+    if (originalChange) {
+      setBblPos(originalBbl);
+      setOriginalChange(false);
+    }
+  }, [originalChange]);
+
 
   // style shortcuts for multiple browser support
   const transformSC = `matrix(1, 0, 0, 1, ${bblPos.x}, ${bblPos.y}) translate(-50%, -50%) scale(${bblPos.size * (hover ? 1.05 : 1) / originalBbl.size})`;
@@ -98,32 +107,34 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
 
   
   return(
-    <div style={{
+    <ScrollAnimation animateIn='animate__fadeIn' animateOut='animate__fadeOut' offset={0}
+      style={{
         transform: transformSC, WebkitTransform: transformSC, MozTransform: transformSC, OTransform: transformSC, MsTransform: transformSC,
         transition: transitionSC, WebkitTransform: transitionSC, MozTransform: transitionSC, OTransform: transitionSC, MsTransform: transitionSC,
-        width: `${originalBbl.size}px`, height: `${originalBbl.size}px`, background: `#${color}`
-      }}
-      className={styles.circle} 
-      onMouseEnter={() => {setHover(true);}} 
-      onMouseLeave={() => {setHover(false);}}
-      onClick={() => {if (!transition) {clearTimeout(time); setTransition(true); clicked(id); setTime(setTimeout(() => setTransition(false), MOVEDUR))}}}
-    >
-      <div className={styles.rank}>
-        {id + 2}
+        width: `${originalBbl.size}px`, height: `${originalBbl.size}px`, background: `#${color}`, zIndex: `${-1 * id}`
+      }} className={styles.circle} >
+      <div 
+        onMouseEnter={() => {setHover(true);}} 
+        onMouseLeave={() => {setHover(false);}}
+        onClick={() => {if (!transition) {clearTimeout(time); setTransition(true); clicked(id); setTime(setTimeout(() => setTransition(false), MOVEDUR))}}}
+      >
+        <div className={styles.rank}>
+          {id + 2}
+        </div>
+        <img src={track.album.images[0].url} className={styles.trackImage}/>
+        <div className={styles.trackText}>
+          <div style={{fontSize: `${originalBbl.size / 2}%`}}>
+            {track && track.name}
+          </div>
+          <div style={{fontSize: `${originalBbl.size / 3}%`}}>
+            {track && track.artists.map(artist => {return artist.name}).join(', ')}
+          </div>
+          <div style={{opacity: `${thisBblClicked ? 1 : 0}`, fontSize: `${originalBbl.size / 2.5}%`}} className={styles.extraText}>
+            Released {track && getDate(track.album.release_date)}
+          </div>
+        </div>
       </div>
-      <img src={track.album.images[0].url} className={styles.trackImage}/>
-      <div className={styles.trackText}>
-        <div style={{fontSize: `${originalBbl.size / 2}%`}}>
-          {track && track.name}
-        </div>
-        <div style={{fontSize: `${originalBbl.size / 3}%`}}>
-          {track && track.artists.map(artist => {return artist.name}).join(', ')}
-        </div>
-        <div style={{opacity: `${thisBblClicked ? 1 : 0}`, fontSize: `${originalBbl.size / 2.5}%`}} className={styles.extraText}>
-          Released {track && getDate(track.album.release_date)}
-        </div>
-      </div>
-    </div>
+    </ScrollAnimation>
   );
 }
 

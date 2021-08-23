@@ -1,21 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Bubble from './Bubble.js';
 import styles from '../styles/Bubble.module.css';
+import { getWindowSize } from '../utilities/getWindowSize.js';
+import { getBubblePositions, getBubbleBigSize, getBubbleMoveDist } from '../utilities/bubbleInfo.js';
 
 const Bubbles = ( { tracks } ) => {
-  const originalBbls = [
-    {x: 775, y: 225, size: 200},
-    {x: 300, y: 200, size: 180},
-    {x: 325, y: 425, size: 170},
-    {x: 620, y: 350, size: 160},
-    {x: 500, y: 475, size: 160},
-    {x: 450, y: 300, size: 150},
-    {x: 575, y: 900, size: 150}
-  ];
+  const windowSize = getWindowSize();
+
+  const originalBbls = getBubblePositions();
 
   const [lastClicked, setLastClicked] = useState(null);
   const [clickedBbl, setClickedBbl] = useState(null);
   const [transition, setTransition] = useState(false);
+  const [windowState, setWindowState] = useState(0);
+  const [originalChange, setOriginalChange] = useState(false);
 
 
   const clicked = (id) => {
@@ -23,12 +21,27 @@ const Bubbles = ( { tracks } ) => {
       setClickedBbl(null);
     }
     else { // different bubble clicked
-      setClickedBbl(originalBbls[id]);
+      setClickedBbl(originalBbls[windowState][id]);
     }
 
     setLastClicked(id); // set lastClicked to current id
   }
 
+
+  const handleResize = () => {
+    if (window.innerWidth < 800) {
+      setWindowState(1);
+    }
+    else {
+      setWindowState(0);
+    }
+    setOriginalChange(true);
+  }
+  
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    handleResize();
+  }, []);
   
   if (tracks.length === 0) {
     return(
@@ -39,12 +52,16 @@ const Bubbles = ( { tracks } ) => {
   }
 
   return (
-    <div>
-      {originalBbls.map((bbl, id) => (
-        <Bubble key={id} id={id} originalBbl={bbl} clickedBbl={clickedBbl} clicked={clicked} transition={transition} setTransition={setTransition}
-          track={tracks.slice(1)[id]}
-        />
-      ))}
+    <div className={styles.container}>
+      <div>
+        {originalBbls[windowState].map((bbl, id) => (
+          <Bubble key={id} id={id} originalBbl={bbl} 
+            clickedBbl={clickedBbl} clicked={clicked} transition={transition} setTransition={setTransition}
+            originalChange={originalChange} setOriginalChange={setOriginalChange} BIGSIZE={getBubbleBigSize()[windowState]}
+            MOVEDIST={getBubbleMoveDist()[windowState]} track={tracks.slice(1)[id]}
+          />
+        ))}
+      </div>
     </div>
   );
 

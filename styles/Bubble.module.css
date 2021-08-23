@@ -1,3 +1,43 @@
+@media screen and (min-width: 1500px) {
+  .container {
+    width: 1400px;
+  }
+}
+@media screen and (min-width: 1200px) and (max-width: 1500px) {
+  .container {
+    width: 1100px;
+  }
+}
+@media screen and (min-width: 850px) and (max-width: 1200px) {
+  .container {
+    width: 750px;
+  }
+}
+@media screen and (min-width: 600px) and (max-width: 850px) {
+  .container {
+    width: 500px;
+  }
+}
+@media screen and (min-width: 400px) and (max-width: 600px) {
+  .container {
+    width: 350px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .container {
+    width: 300px;
+  }
+}
+
+
+.container {
+  background-color: rgb(211, 239, 255); 
+  position: relative;
+  height: 2000px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
 .circle {
   position: absolute;
   cursor: pointer;

@@ -78,8 +78,4 @@ nav li {
   justify-content: center;
 }
 
-#arrowAnimation {
-  animation: pulse;
-  --animate-repeat: 3;
-}
 
