@@ -53,15 +53,13 @@ const Bubbles = ( { tracks } ) => {
 
   return (
     <div className={styles.container}>
-      <div>
-        {originalBbls[windowState].map((bbl, id) => (
-          <Bubble key={id} id={id} originalBbl={bbl} 
-            clickedBbl={clickedBbl} clicked={clicked} transition={transition} setTransition={setTransition}
-            originalChange={originalChange} setOriginalChange={setOriginalChange} BIGSIZE={getBubbleBigSize()[windowState]}
-            MOVEDIST={getBubbleMoveDist()[windowState]} track={tracks.slice(1)[id]}
-          />
-        ))}
-      </div>
+      {originalBbls[windowState].map((bbl, id) => (
+        <Bubble key={id} id={id} originalBbl={bbl} 
+          clickedBbl={clickedBbl} clicked={clicked} transition={transition} setTransition={setTransition}
+          originalChange={originalChange} setOriginalChange={setOriginalChange} BIGSIZE={getBubbleBigSize()[windowState]}
+          MOVEDIST={getBubbleMoveDist()[windowState]} track={tracks.slice(1)[id]}
+        />
+      ))}
     </div>
   );
 

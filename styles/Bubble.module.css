@@ -41,7 +41,6 @@
 .circle {
   position: absolute;
   cursor: pointer;
-  border-radius: 50%;
   text-align: center;
 }
 

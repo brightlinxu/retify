@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getDate } from '../utilities/getReleaseDate.js';
-import ScrollAnimation from 'react-animate-on-scroll';
-import 'animate.css';
+import Fade from 'react-reveal/Fade';
 import styles from '../styles/Bubble.module.css'
 
 const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransition, 
@@ -107,34 +106,37 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
 
   
   return(
-    <ScrollAnimation animateIn='animate__fadeIn' animateOut='animate__fadeOut' offset={0}
-      style={{
+    <div style={{
         transform: transformSC, WebkitTransform: transformSC, MozTransform: transformSC, OTransform: transformSC, MsTransform: transformSC,
-        transition: transitionSC, WebkitTransform: transitionSC, MozTransform: transitionSC, OTransform: transitionSC, MsTransform: transitionSC,
-        width: `${originalBbl.size}px`, height: `${originalBbl.size}px`, background: `#${color}`, zIndex: `${-1 * id}`
-      }} className={styles.circle} >
-      <div 
-        onMouseEnter={() => {setHover(true);}} 
-        onMouseLeave={() => {setHover(false);}}
-        onClick={() => {if (!transition) {clearTimeout(time); setTransition(true); clicked(id); setTime(setTimeout(() => setTransition(false), MOVEDUR))}}}
-      >
-        <div className={styles.rank}>
-          {id + 2}
+        transition: transitionSC, WebkitTransform: transitionSC, MozTransform: transitionSC, OTransform: transitionSC, MsTransform: transitionSC
+      }} 
+      className={styles.circle}
+      onMouseEnter={() => {setHover(true);}} 
+      onMouseLeave={() => {setHover(false);}}
+      onClick={() => {if (!transition) {clearTimeout(time); setTransition(true); clicked(id); setTime(setTimeout(() => setTransition(false), MOVEDUR))}}}
+    >
+      <Fade bottom>
+        <div style={{width: `${originalBbl.size}px`, height: `${originalBbl.size}px`, 
+          background: `#${color}`, zIndex: `${-1 * id}`, borderRadius: '50%'}} 
+        >
+          <div className={styles.rank}>
+            {id + 2}
+          </div>
+          <img src={track.album.images[0].url} className={styles.trackImage}/>
+          <div className={styles.trackText}>
+            <div style={{fontSize: `${originalBbl.size / 2}%`}}>
+              {track && track.name}
+            </div>
+            <div style={{fontSize: `${originalBbl.size / 3}%`}}>
+              {track && track.artists.map(artist => {return artist.name}).join(', ')}
+            </div>
+            <div style={{opacity: `${thisBblClicked ? 1 : 0}`, fontSize: `${originalBbl.size / 2.5}%`}} className={styles.extraText}>
+              Released {track && getDate(track.album.release_date)}
+            </div>
+          </div>
         </div>
-        <img src={track.album.images[0].url} className={styles.trackImage}/>
-        <div className={styles.trackText}>
-          <div style={{fontSize: `${originalBbl.size / 2}%`}}>
-            {track && track.name}
-          </div>
-          <div style={{fontSize: `${originalBbl.size / 3}%`}}>
-            {track && track.artists.map(artist => {return artist.name}).join(', ')}
-          </div>
-          <div style={{opacity: `${thisBblClicked ? 1 : 0}`, fontSize: `${originalBbl.size / 2.5}%`}} className={styles.extraText}>
-            Released {track && getDate(track.album.release_date)}
-          </div>
-        </div>
-      </div>
-    </ScrollAnimation>
+      </Fade>
+    </div>
   );
 }
 
