@@ -1,17 +1,55 @@
 import ParallaxEffect from '../components/ParallaxEffect.js';
 import ManualLogin from '../components/ManualLogin.js';
 import styles from '../styles/Index.module.css';
-import { getWindowSize } from '../utilities/getWindowSize.js'
-import { Parallax } from 'react-scroll-parallax';
-import ScrollAnimation from 'react-animate-on-scroll';
-import 'animate.css';
+import { Fade } from 'react-awesome-reveal';
+import { Parallax, Background } from 'react-parallax';
 
 const Index = () => {
-  const windowSize = getWindowSize();
-  const rememberStr = 'REMEMBER';
-  const rediscoverStr = 'REDISCOVER';
 
 
+  return (
+    <div>
+      <ParallaxEffect img={'/images/remember.png'} text={'Remember'} translate={-5}/>
+      <Parallax renderLayer={percentage => (
+        <Fade direction={'left'} triggerOnce>
+          <div style={{
+              /*height: `${((1 - percentage) * 20) + 25}vh`*/
+              marginTop: `${((1 - percentage) * 8) + 10}vh`,
+              marginBottom: `${((1 - percentage) * 8) + 10}vh`
+            }} 
+            className={styles.inBetweenText}
+          >
+            Lorem Ipsum
+          </div>
+        </Fade>
+      )}/>
+      <ParallaxEffect img={'/images/rediscover.png'} text={'Rediscover'} translate={0}/>
+      <Parallax renderLayer={percentage => (
+        <Fade direction={'right'} triggerOnce>
+          <div style={{
+              marginTop: `${((1 - percentage) * 8) + 10}vh`,
+              marginBottom: `${((1 - percentage) * 8) + 10}vh`
+            }} 
+            className={styles.inBetweenText}
+          >
+            Lorem Ipsum
+          </div>
+        </Fade>
+      )}/>
+      <ParallaxEffect img={'/images/relive.png'} text={'Relive'} translate={0}/>
+      <div className={styles.loginPos}>
+        <Fade direction={'up'} delay={800}>
+          <div className={styles.loginColor}>
+            <ManualLogin />
+          </div>
+        </Fade>
+      </div>
+    </div>
+  );
+
+
+  
+  /*
   return (
     <div className={styles.background}>
       <div className={styles.section1}>
@@ -55,17 +93,6 @@ const Index = () => {
             DISCOVER
           </div>
         </ScrollAnimation>
-        <span>
-          {/*rediscoverStr.split('').map((letter, id) => (
-            <Parallax key={id} y={[`${((4.5 - id) ** 2) * -5}`, `${((4.5 - id) ** 2) * 5}`]}
-            styleInner={{fontSize: `${windowSize.width / 18}px`, fontFamily: 'Montserrat-SemiBold', 
-                         letterSpacing: `${(windowSize.width / 60) + 5}px`}}
-            className={styles.section4Text}
-            >
-              {letter}
-            </Parallax>
-          ))*/}
-        </span>
       </div>
       <div className={styles.section5}>
         filler
@@ -73,7 +100,7 @@ const Index = () => {
 
 
 
-      {/*
+      {
       <ParallaxEffect img={'/images/remember.png'} text={'Remember'}/>
       <div className={styles.inBetweenText}>
         Lorem Ipsum
@@ -83,9 +110,10 @@ const Index = () => {
         Lorem Ipsum
       </div>
       <ParallaxEffect img={'/images/relive.png'} text={'Relive'}/>
-      */}
+      }
     </div>
   )
+  */
 }
 
 export default Index;

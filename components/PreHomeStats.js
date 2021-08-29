@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getWindowSize } from '../utilities/getWindowSize.js';
-import styles from '../styles/PreHome.module.css'
+import 'animate.css';
+import styles from '../styles/PreHome.module.css';
 
 const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } ) => {
   const windowSize = getWindowSize();
@@ -54,9 +55,9 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
   // contains stats that are displayed inside of bubbles
   // format is: {title, array with all the stats}
   const stats = [
-    {title: 'Average Song Duration:', info: getAvgDur().min + ' min and ' + getAvgDur().sec + ' sec'}, 
-    {title: 'Top Artists:', info: artists.slice(0, 3).map(artist => {return artist.name}).join(', ')}, 
-    {title: 'Top Genres:', info: getTopGenres().join(', ')}
+    {title: 'Average Song Duration:', info: getAvgDur().min + ' min and ' + getAvgDur().sec + ' sec', pos: 20}, 
+    {title: 'Top Artists:', info: artists.slice(0, 3).map((artist, id) => (<div>{id + 1}. {artist.name}</div>)), pos: 46}, 
+    {title: 'Top Genres:', info: getTopGenres().map((genre, id) => (<div>{id + 1}. {genre}</div>)), pos: 75}
   ];
 
 
@@ -99,13 +100,15 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
   return(
     <div>
       {stats.slice(0, count).map((stat, id) => (
-        <div key={id} style={{top: `${(id + 1) * 25}%`}} className={[styles.bubbleBackground, styles.fixedPosition].join(' ')} >
-          <div style={{fontSize: `${(windowSize.width + windowSize.height) / 100}px`}} className={styles.text}>
-            <div>
-              {stat.title}
-            </div>
-            <div>
-              {stat.info}
+        <div key={id} style={{left: '50%', top: `${stat.pos}%`}} className={styles.fixedPosition}>
+          <div className={'animate__animated animate__fadeInUp'}> 
+            <div className={styles.bubbleBackground}>
+              <div style={{fontSize: `${(windowSize.width / 100) + 10}px`}} className={styles.bubbleTitle}>
+                {stat.title}
+              </div>
+              <div style={{fontSize: `${(windowSize.width / 140) + 10}px`}} className={styles.bubbleInfo}>
+                {stat.info}
+              </div>
             </div>
           </div>
         </div>

@@ -4,59 +4,28 @@
 }
 
 .bubbleBackground {
-  left: 50%;
-  border-radius: 50% 20% / 10% 40%;;
+  display: block;
+  white-space: nowrap;
+  text-align: center;
+  cursor: default;
+  padding: 5vh 30px 5vh 30px;
+  border-radius: 20px;
+  /*border-radius: 50% 20% / 10% 40%;*/
   background: rgba(255, 218, 118, 0.93);
-  padding: 4% 3%;
-  animation: fadeIn 2s;
-  -webkit-animation: fadeIn 2s;
-  -moz-animation: fadeIn 2s;
-  -o-animation: fadeIn 2s;
-  -ms-animation: fadeIn 2s;
 }
 
-.imgFadeIn {
-  border-radius: 5%;
-  animation: fadeIn 1s;
-  -webkit-animation: fadeIn 1s;
-  -moz-animation: fadeIn 1s;
-  -o-animation: fadeIn 1s;
-  -ms-animation: fadeIn 1s;
+.bubbleTitle {
+  font-family: Montserrat-SemiBold;
+
 }
+
+.bubbleInfo {
+  margin-top: 8px;
+}
+
 
 .windowFill {
   width: 100vw;
   height: 100vh;
-}
-
-.text {
-  text-align: center;
-  cursor: default;
-}
-
-
-@keyframes fadeIn {
-  0% {opacity:0;}
-  100% {opacity:1;}
-}
-
-@-webkit-keyframes fadeIn {
-  0% {opacity:0;}
-  100% {opacity:1;}
-}
-
-@-moz-keyframes fadeIn {
-  0% {opacity:0;}
-  100% {opacity:1;}
-}
-
-@-o-keyframes fadeIn {
-  0% {opacity:0;}
-  100% {opacity:1;}
-}
-
-@-ms-keyframes fadeIn {
-  0% {opacity:0;}
-  100% {opacity:1;}
 }
 

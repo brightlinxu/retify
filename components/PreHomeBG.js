@@ -2,48 +2,18 @@ import { useEffect, useState } from 'react';
 import { getWindowSize } from '../utilities/getWindowSize.js';
 import { useSpring, animated } from 'react-spring';
 import styles from '../styles/PreHome.module.css';
+import { getImgPositions, getImgMoveDists } from '../utilities/imgInfo.js';
+import 'animate.css';
 
 const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y } ) => {
   const windowSize = getWindowSize();
-  // array that holds all positions of background iamges
-  const positions = [ // row = pic ID + 7
-    {left: '34%', top: '41%'}, 
-    {left: '88%', top: '23%'},
-    {left: '11%', top: '85%'},
-    {left: '69%', top: '65%'},
-    {left: '55%', top: '50%'},
-    {left: '8%', top: '24%'},
-    {left: '61%', top: '17%'},
-    {left: '86%', top: '86%'},
-    {left: '43%', top: '73%'},
-    {left: '20%', top: '48%'},
-    {left: '76%', top: '38%'},
-    {left: '92%', top: '50%'},
-    {left: '30%', top: '70%'},
-    {left: '27%', top: '18%'},
-    {left: '56%', top: '87%'},
-    {left: '49%', top: '28%'},
-    {left: '8%', top: '56%'},
-    {left: '82%', top: '57%'},
-    {left: '73%', top: '19%'},
-    {left: '31%', top: '91%'},
-    {left: '40%', top: '15%'},
-    {left: '74%', top: '86%'},
-    {left: '45%', top: '51%'},
-    {left: '18%', top: '25%'},
-    {left: '56%', top: '69%'},
-    {left: '65%', top: '39%'},
-    {left: '19%', top: '66%'},
-    {left: '44%', top: '92%'},
-    {left: '65%', top: '86%'},
-    {left: '92%', top: '67%'}
-  ];
-
+  
+  const positions = getImgPositions();
+  const [moveDists, setMoveDists] = useState([]);
   
   const [count, setCount] = useState(0);
   const [srcs, setSrcs] = useState([]);
   const [gotSrcs, setGotSrcs] = useState(false);
-  const [startCount, setStartCount] = useState(false);
   const [blur, setBlur] = useState(0);
 
 
@@ -105,7 +75,7 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
 
   // counter to fade in pictures one by one
   useEffect(() => {
-    if (startCount) {
+    if (gotSrcs) {
       let tempCount = 0;
       let mounted = true;
 
@@ -115,7 +85,7 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
           // alert that background has all faded in after 1 second
           let timeout = setTimeout(() => {
             if (mounted) setFinishedBG(true);
-          }, 1000);
+          }, (positions.length * picInterval) + 1000);
         }
 
         if (mounted) {
@@ -126,18 +96,22 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
 
       return () => mounted = false; // fix mounting error
     }
-  }, [startCount]);
+  }, [gotSrcs]);
+
+  useEffect(() => {
+    setMoveDists(getImgMoveDists());
+  }, []);
 
 
   const baseSize = (windowSize.width + windowSize.height) / 13; // 13 and 615 are just numbers I picked
-  const changingSize = (windowSize.width + windowSize.height) / 615; 
+  const changingSize = (windowSize.width + windowSize.height) / 720; 
 
-  if (tracks.length !== 0 && artists.length !== 0) {
+  if (tracks.length && artists.length && moveDists.length) {
     if (!gotSrcs) {
       setSrcs(getPicSrcs());
       setGotSrcs(true);
-      setStartCount(true);
     }
+    
 
     return(
       <div>
@@ -145,9 +119,11 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
           <div key={id} style={{left: `${positions[id].left}`, top: `${positions[id].top}`, 
           filter: `blur(${blur}px)`, zIndex: `${(id + 1) * -1}`}} className={styles.fixedPosition} 
           >
-            <animated.div style={{transform: spring.xy.to((x, y) => `translate3d(${x / ((id * 0.5) + 12)}px, ${y / ((id * 0.5) + 12)}px, 0)`)}}>
-              <img src={src} height={baseSize - (id * changingSize)} className={styles.imgFadeIn}/>
-            </animated.div>
+            <div className={'animate__animated animate__fadeInUp'}>
+              <animated.div style={{transform: spring.xy.to((x, y) => `translate3d(${x / moveDists[id].x/*x / ((id * 0.5) + 12)*/}px, ${y / moveDists[id].y/*y / ((id * 0.5) + 12)*/}px, 0)`)}}>
+                <img src={src} height={baseSize - (id * changingSize)} style={{borderRadius: '5%'}} />
+              </animated.div>
+            </div>
           </div>
         ))}
       </div>

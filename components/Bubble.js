@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getDate } from '../utilities/getReleaseDate.js';
-import Fade from 'react-reveal/Fade';
+//import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
 import styles from '../styles/Bubble.module.css'
 
 const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransition, 
@@ -115,7 +116,7 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
       onMouseLeave={() => {setHover(false);}}
       onClick={() => {if (!transition) {clearTimeout(time); setTransition(true); clicked(id); setTime(setTimeout(() => setTransition(false), MOVEDUR))}}}
     >
-      <Fade bottom>
+      <Fade direction={'up'} fraction={0.7} triggerOnce>
         <div style={{width: `${originalBbl.size}px`, height: `${originalBbl.size}px`, 
           background: `#${color}`, zIndex: `${-1 * id}`, borderRadius: '50%'}} 
         >

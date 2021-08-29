@@ -1,21 +1,26 @@
+import ScrollAnimation from 'react-animate-on-scroll';
 import { Parallax, Background } from 'react-parallax';
+import { Zoom } from 'react-awesome-reveal';
+import { getWindowSize } from '../utilities/getWindowSize';
 
-const ParallaxEffect = (  { img, text } ) => {
+const ParallaxEffect = (  { img, text, translate } ) => {
+  const windowSize = getWindowSize();
+
   return(
-    <Parallax bgImage={img} strength={-200}>
-      <div style={{height: '100vh'}}>
+    <Parallax bgImage={img} strength={220}>
         <div style={{
-          fontFamily: 'Montserrat-SemiBold',
-          fontSize: '120px',
-          color: '#f8f8ff',
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%,-50%)'}}
+          height: '110vh', display: 'flex', justifyContent: 'center', alignItems: 'center', transform: `translate(0%, ${translate}%)`
+        }}
         >
-          {text}
+          <Zoom fraction={0.9} triggerOnce>
+            <div style={{
+              fontFamily: 'Montserrat-SemiBold', fontSize: `${(windowSize.width / 12) + 10}px`, color: '#f8f8ff'
+            }}
+            >
+              {text}
+            </div>
+          </Zoom>
         </div>
-      </div>
     </Parallax>
   );
 }

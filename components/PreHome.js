@@ -14,9 +14,6 @@ const PreHome = ( { tracks, artists, setChecked } ) => {
 
   return(
     <div onMouseMove={({ clientX: x, clientY: y }) => {setx(x); sety(y);}} className={styles.windowFill}>
-      <button onClick={() => setChecked(true)}>
-        see my stats!
-      </button>
       <PreHomeBG tracks={tracks} artists={artists} picInterval={picInterval} setFinishedBG={setFinishedBG} runBlur={runBlur} x={x} y={y} setx={setx} sety={sety}/>
       <PreHomeStats tracks={tracks} artists={artists} finishedBG={finishedBG} setRunBlur={setRunBlur} setChecked={setChecked}/>
     </div>

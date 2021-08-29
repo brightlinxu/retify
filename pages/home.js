@@ -37,8 +37,8 @@ const Home = () => {
   }
 
   
-  const getTop = (type, timeRange) => {
-    fetch(`https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}`, {
+  const getTop = (type, timeRange, limit) => {
+    fetch(`https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}&limit=${limit}`, {
       method: 'GET',
       headers: {'Authorization': 'Bearer ' + accessToken}
     })
@@ -66,41 +66,41 @@ const Home = () => {
         // removes hash from url
         history.pushState('', document.title, window.location.pathname);
         console.log('access token:', accessToken);
-        getTop('tracks', 'short_term');
-        getTop('artists', 'short_term');
+        getTop('tracks', 'short_term', 30);
+        getTop('artists', 'short_term', 30);
       }
     }
   }, [accessToken]);
 
 
   
-  /*if (!checked) {
+  if (!checked) {
     return (
       <PreHome tracks={tracks} artists={artists} setChecked={setChecked}/>
     );
   }
-  else {*/
-    return (
+    
+  return (
+    <div>
+      <TrackStats tracks={tracks}/>
+      {/*
       <div>
-        <TrackStats tracks={tracks}/>
-        {/*
-        <div>
-          access token: {accessToken}
-        </div>
-        <br />
-        <Music accessToken={accessToken} tracks={tracks} artists={artists} setChecked={setChecked}/>
-        <div>
-          Top Track Names: 
-          {tracks.map((track, id) => (<ul key={id}>{track.name}</ul>))}
-          Top Track Uris:
-          {tracks.map((track, id) => (<ul key={id}>{track.uri}</ul>))}
-          Top Artist Names : 
-          {artists.map((artist, id) => (<ul key={id}>{artist.name}</ul>))}
-        </div>
-        */}
+        access token: {accessToken}
       </div>
-    );
-  /*}*/
+      <br />
+      <Music accessToken={accessToken} tracks={tracks} artists={artists} setChecked={setChecked}/>
+      <div>
+        Top Track Names: 
+        {tracks.map((track, id) => (<ul key={id}>{track.name}</ul>))}
+        Top Track Uris:
+        {tracks.map((track, id) => (<ul key={id}>{track.uri}</ul>))}
+        Top Artist Names : 
+        {artists.map((artist, id) => (<ul key={id}>{artist.name}</ul>))}
+      </div>
+      */}
+    </div>
+  );
+
 }
 
 export default Home;
