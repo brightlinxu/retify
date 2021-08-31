@@ -21,17 +21,17 @@ const TopTrack = ( { topTrack } ) => {
         <Fade direction={'up'} triggerOnce>
           <img src={topTrack && topTrack.album.images[0].url} className={styles.img}/>
         </Fade>
-        <Fade direction={'up'} delay={800} triggerOnce>
+        <Fade direction={'up'} delay={1800} triggerOnce>
           <div className={styles.song} style={{fontSize: `${(totalWindowSize / 60) + 5}px`}}>
             {topTrack && topTrack.name}
           </div>
         </Fade>
-        <Fade direction={'up'} delay={900} triggerOnce>
+        <Fade direction={'up'} delay={1900} triggerOnce>
           <div className={styles.artists} style={{fontSize: `${(totalWindowSize / 100) + 5}px`}}>
             {topTrack && topTrack.artists.map(artist => {return artist.name}).join(', ')}
           </div>
         </Fade>
-        <Fade direction={'up'} delay={2200} triggerOnce>
+        <Fade direction={'up'} delay={3000} triggerOnce>
           <div className={styles.date} style={{fontSize: `${(totalWindowSize / 90) + 5}px`}}>
             Released {topTrack && getDate(topTrack.album.release_date)}
           </div>

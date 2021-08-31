@@ -102,7 +102,7 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
 
 
   // style shortcuts for multiple browser support
-  const transformSC = `matrix(1, 0, 0, 1, ${bblPos.x}, ${bblPos.y}) translate(-50%, -50%) scale(${bblPos.size * (hover ? 1.05 : 1) / originalBbl.size})`;
+  const transformSC = `matrix(1, 0, 0, 1, ${bblPos.x}, ${bblPos.y}) translate(-50%, -50%) scale(${bblPos.size * (hover ? 1.05 : 1) * (thisBblClicked ? 1.25 : 1) / originalBbl.size}, ${bblPos.size * (hover ? 1.05 : 1) / originalBbl.size})`;
   const transitionSC = `${transition ? `${MOVEDUR}ms cubic-bezier(0.34, 1.56, 0.64, 1)` : '0.1s linear'}`;
 
   
@@ -111,27 +111,54 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
         transform: transformSC, WebkitTransform: transformSC, MozTransform: transformSC, OTransform: transformSC, MsTransform: transformSC,
         transition: transitionSC, WebkitTransform: transitionSC, MozTransform: transitionSC, OTransform: transitionSC, MsTransform: transitionSC
       }} 
-      className={styles.circle}
+      className={styles.box}
       onMouseEnter={() => {setHover(true);}} 
       onMouseLeave={() => {setHover(false);}}
       onClick={() => {if (!transition) {clearTimeout(time); setTransition(true); clicked(id); setTime(setTimeout(() => setTransition(false), MOVEDUR))}}}
     >
       <Fade direction={'up'} fraction={0.7} triggerOnce>
-        <div style={{width: `${originalBbl.size}px`, height: `${originalBbl.size}px`, 
-          background: `#${color}`, zIndex: `${-1 * id}`, borderRadius: '50%'}} 
+        <div style={{width: `${originalBbl.size * 0.8}px`, height: `${originalBbl.size}px`, 
+          /*background: `#${color}`,*/ border: '1px solid black', zIndex: `${-1 * id}`, borderRadius: '10%'}} 
         >
-          <div className={styles.rank}>
+          <div className={styles.rank} 
+            style={{
+              opacity: `${thisBblClicked ? 0 : 1}`, 
+              transform: `translate(-50%, -50%) scale(${thisBblClicked ? 0.8 : 1}, 1)`,
+              fontSize: `${originalBbl.size / 1.5}%`
+            }}>
             {id + 2}
           </div>
-          <img src={track.album.images[0].url} className={styles.trackImage}/>
-          <div className={styles.trackText}>
-            <div style={{fontSize: `${originalBbl.size / 2}%`}}>
+          <div style={{
+              opacity: `${thisBblClicked ? 1 : 0}`, 
+              transform: `translate(-50%, -50%) scale(${thisBblClicked ? 0.8 : 1}, 1)`,
+              fontSize: `${originalBbl.size / 1.5}%`
+            }} 
+            className={styles.rankBig}
+          >
+            {id + 2}
+          </div>
+          <img src={track.album.images[0].url} className={styles.trackImage}
+            style={{
+              width: `${thisBblClicked ? 40 : 90}%`,
+              height: `${thisBblClicked ? 40 : 72}%`, 
+              marginTop: `${thisBblClicked ? 7 : 30}%`, 
+              transition: '0.45s cubic-bezier(0.39, 1, 0.41, 1)',
+              WebkitTransform: '0.45s cubic-bezier(0.39, 1, 0.41, 1)', 
+              MozTransform: '0.45s cubic-bezier(0.39, 1, 0.41, 1)', 
+              OTransform: '0.45s cubic-bezier(0.39, 1, 0.41, 1)', 
+              MsTransform: '0.45s cubic-bezier(0.39, 1, 0.41, 1)',
+            }} 
+          />
+          <div style={{opacity: `${thisBblClicked ? 1 : 0}`, transform: 'translate(-50%, -50%) scale(0.8, 1)'}} 
+            className={styles.trackText}
+          >
+            <div style={{fontSize: `${originalBbl.size / 2}%`}} className={styles.trackTitle}>
               {track && track.name}
             </div>
-            <div style={{fontSize: `${originalBbl.size / 3}%`}}>
+            <div style={{fontSize: `${originalBbl.size / 3}%`}} className={styles.trackArtist}>
               {track && track.artists.map(artist => {return artist.name}).join(', ')}
             </div>
-            <div style={{opacity: `${thisBblClicked ? 1 : 0}`, fontSize: `${originalBbl.size / 2.5}%`}} className={styles.extraText}>
+            <div style={{fontSize: `${originalBbl.size / 2.6}%`}} className={styles.extraText}>
               Released {track && getDate(track.album.release_date)}
             </div>
           </div>

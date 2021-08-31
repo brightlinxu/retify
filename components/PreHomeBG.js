@@ -85,7 +85,7 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
           // alert that background has all faded in after 1 second
           let timeout = setTimeout(() => {
             if (mounted) setFinishedBG(true);
-          }, (positions.length * picInterval) + 1000);
+          }, 1000);
         }
 
         if (mounted) {
