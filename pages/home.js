@@ -4,6 +4,7 @@ import Music from '../components/Music.js';
 import { getAuthUrl } from '../utilities/getAuthUrl.js';
 import PreHome from '../components/PreHome.js';
 import TrackStats from '../components/TrackStats.js';
+import { Parallax } from 'react-scroll-parallax';
 import styles from '../styles/Home.module.css';
 
 const Home = () => {
@@ -17,6 +18,9 @@ const Home = () => {
 
   // enables users to see data
   const [checked, setChecked] = useState(false);
+
+  // check if music is playing 
+  const [musicStarted, setMusicStarted] = useState(false);
 
 
   // get hash parameters from url
@@ -82,22 +86,14 @@ const Home = () => {
     
   return (
     <div>
-      <TrackStats tracks={tracks}/>
-      {/*
-      <div>
-        access token: {accessToken}
-      </div>
-      <br />
-      <Music accessToken={accessToken} tracks={tracks} artists={artists} setChecked={setChecked}/>
-      <div>
-        Top Track Names: 
-        {tracks.map((track, id) => (<ul key={id}>{track.name}</ul>))}
-        Top Track Uris:
-        {tracks.map((track, id) => (<ul key={id}>{track.uri}</ul>))}
-        Top Artist Names : 
-        {artists.map((artist, id) => (<ul key={id}>{artist.name}</ul>))}
-      </div>
-      */}
+      <Parallax y={[-15, 15]} className={styles.background}>
+        <img src='/images/scribble17.png' style={{height: '90vh', width: '85vw'}}/>
+      </Parallax>
+
+      {musicStarted && <TrackStats tracks={tracks}/>}
+      
+      <Music accessToken={accessToken} tracks={tracks} setChecked={setChecked} setMusicStarted={setMusicStarted}/>
+      
     </div>
   );
 

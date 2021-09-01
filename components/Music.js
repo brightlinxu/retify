@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 //*****************************************************
 
 
-const Music = ({ accessToken, tracks, artists, setChecked }) => {
+const Music = ({ accessToken, tracks, setChecked, setMusicStarted }) => {
   const SONGLENGTH = 9000; // in milliseconds
   const CROSSFADEINT = 80; // in milliseconds
 
@@ -66,6 +66,7 @@ const Music = ({ accessToken, tracks, artists, setChecked }) => {
           // playing the background music
           setBgTimeout(setTimeout(() => {
             backgroundMusic(counter);
+            setMusicStarted(true);
           }, 500));
 
         }

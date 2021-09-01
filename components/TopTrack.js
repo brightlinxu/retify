@@ -1,7 +1,6 @@
 import { getDate } from '../utilities/getReleaseDate.js';
 import { getWindowSize } from '../utilities/getWindowSize.js';
 import { Fade, Bounce } from 'react-awesome-reveal';
-import { Parallax } from 'react-scroll-parallax';
 import styles from '../styles/TopTrack.module.css';
 
 const TopTrack = ( { topTrack } ) => {
@@ -14,9 +13,6 @@ const TopTrack = ( { topTrack } ) => {
 
   return (
     <div>
-      <Parallax y={[-15, 15]} className={styles.background}>
-        <img src='/images/scribble17.png' style={{height: '90vh', width: '85vw'}}/>
-      </Parallax>
       <div className={styles.container}> 
         <Fade direction={'up'} triggerOnce>
           <img src={topTrack && topTrack.album.images[0].url} className={styles.img}/>
