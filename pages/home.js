@@ -4,7 +4,6 @@ import Music from '../components/Music.js';
 import { getAuthUrl } from '../utilities/getAuthUrl.js';
 import PreHome from '../components/PreHome.js';
 import TrackStats from '../components/TrackStats.js';
-import { Parallax } from 'react-scroll-parallax';
 import styles from '../styles/Home.module.css';
 
 const Home = () => {
@@ -86,13 +85,10 @@ const Home = () => {
     
   return (
     <div>
-      <Parallax y={[-15, 15]} className={styles.background}>
-        <img src='/images/scribble17.png' style={{height: '90vh', width: '85vw'}}/>
-      </Parallax>
-
-      {musicStarted && <TrackStats tracks={tracks}/>}
+      <TrackStats tracks={tracks} musicStarted={musicStarted}/>
       
       <Music accessToken={accessToken} tracks={tracks} setChecked={setChecked} setMusicStarted={setMusicStarted}/>
+      
       
     </div>
   );

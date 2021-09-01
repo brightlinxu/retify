@@ -57,7 +57,7 @@ const Bubbles = ( { tracks } ) => {
         <Bubble key={id} id={id} originalBbl={bbl} 
           clickedBbl={clickedBbl} clicked={clicked} transition={transition} setTransition={setTransition}
           originalChange={originalChange} setOriginalChange={setOriginalChange} BIGSIZE={getBubbleBigSize()[windowState]}
-          MOVEDIST={getBubbleMoveDist()[windowState]} track={tracks.slice(1)[id]}
+          MOVEDIST={getBubbleMoveDist()[windowState]} track={tracks[id]}
         />
       ))}
     </div>

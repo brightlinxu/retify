@@ -1,0 +1,47 @@
+.container {
+  position: fixed;
+  align-items: center;
+  display: flex;
+  left: 0.5%;
+  bottom: 1%;
+}
+
+.back {
+  position: fixed;
+  left: 3%;
+  top: 3%;
+  cursor: pointer;
+  transition: all 0.12s linear;
+}
+.back:hover {
+  transform: scale(1.12);
+}
+
+
+.center {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.playPause {
+  position: absolute;
+  z-index: 10;
+}
+
+
+
+.rotate {
+  animation: rotation 4s infinite linear;
+}
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+
+

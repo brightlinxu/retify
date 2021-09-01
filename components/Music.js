@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { getWindowSize } from "../utilities/getWindowSize";
+import styles from '../styles/Music.module.css';
 
 //*****************************************************
 // PLAN FOR HOW TO PLAY MUSIC 
@@ -20,7 +22,7 @@ const Music = ({ accessToken, tracks, setChecked, setMusicStarted }) => {
   const [played, setPlayed] = useState(false);
 
   // song and music related hooks
-  const [musicPaused, setMusicPaused] = useState(false);
+  const [musicPaused, setMusicPaused] = useState(true);
   const [curSongPos, setCurSongPos] = useState(0);
   const [curSongCount, setCurSongCount] = useState(0);
   const [songEnded, setSongEnded] = useState(false);
@@ -32,6 +34,8 @@ const Music = ({ accessToken, tracks, setChecked, setMusicStarted }) => {
   const [cfuInterval, setCfuInterval] = useState(null);
   const [cfdInterval, setCfdInterval] = useState(null);
   const [bgTimeout, setBgTimeout] = useState(null);
+
+  const windowSize = getWindowSize();
 
   let canUnmount = false;
   
@@ -290,29 +294,42 @@ const Music = ({ accessToken, tracks, setChecked, setMusicStarted }) => {
   }, [deviceId, tracks, accessToken]);
   
   
-  
+  const trackImgSize = `${((windowSize.width / 25) + 30)}`;
 
   return (
     <div>
-      <button style={{width: '300px', height: '300px'}} onClick={() => {
-        // pause, so spotify player can stop everything before component stops rendering
-        if (!canUnmount) {
-          clear();
-          pauseMusic();
-        }
-        
-        setTimeout(() => {
-          if (canUnmount) setChecked(false);
-        }, 500);
-      }}>
-        go back
-      </button>
-      <div>
-        Currently Playing: {tracks.length !== 0 && tracks[curSongCount].name}
-      </div>
-      <button onClick={() => toggleMusic()}>
-        toggle music
-      </button>
+      <img src='/images/left-arrow.png' className={styles.back} 
+        style={{width: `${(windowSize.width / 50) + 15}px`}} 
+        onClick={() => {
+          // pause, so spotify player can stop everything before component stops rendering
+          if (!canUnmount) {
+            clear();
+            pauseMusic();
+          }
+          
+          setTimeout(() => {
+            if (canUnmount) setChecked(false);
+          }, 500);
+        }}
+      />
+      <div className={styles.container} style={{height: `${(windowSize.width / 25) + 35}px`}}>
+        <div onClick={() => toggleMusic()}
+        >
+          <img src={`/images/${musicPaused ? 'play' : 'pause'}.png`}
+            height={`${trackImgSize / 3.6}`}
+            style={{left: `${trackImgSize / 2}px`, top: `${trackImgSize / 2}px`}}
+            className={styles.center}
+          />
+          <img src={tracks.length !== 0 && tracks[curSongCount].album.images[0].url}
+            height={`${trackImgSize}`}
+            style={{borderRadius: '50%'}} 
+            className={!musicPaused && styles.rotate}
+          />
+        </div>
+        <div>
+          {tracks.length !== 0 && tracks[curSongCount].name}
+        </div>
+      </div> 
     </div>
   );
 }
