@@ -21,6 +21,10 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
     // separating average duration into minutes and seconds
     let min = Math.floor(avgDur / 60);
     let sec = Math.round(avgDur - (min * 60));
+    if (sec === 60) {
+      sec = 0;
+      ++min;
+    }
 
     return {min, sec};
   }

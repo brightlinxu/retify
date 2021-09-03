@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getWindowSize } from "../utilities/getWindowSize";
+import 'animate.css';
 import styles from '../styles/Music.module.css';
 
 //*****************************************************
@@ -12,7 +13,7 @@ import styles from '../styles/Music.module.css';
 //*****************************************************
 
 
-const Music = ({ accessToken, tracks, setChecked, setMusicStarted }) => {
+const Music = ({ accessToken, tracks, setChecked, musicStarted, setMusicStarted }) => {
   const SONGLENGTH = 9000; // in milliseconds
   const CROSSFADEINT = 80; // in milliseconds
 
@@ -292,44 +293,75 @@ const Music = ({ accessToken, tracks, setChecked, setMusicStarted }) => {
     
     return () => mounted = false;
   }, [deviceId, tracks, accessToken]);
+
+  // for non-Spotify premium users (sets musicStarted to true after a couple seconds)
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      setMusicStarted(true);
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, []);
   
   
-  const trackImgSize = `${((windowSize.width / 25) + 30)}`;
+  const trackImgSize = (windowSize.width / 70) + 35;
+  const totalWindowSize = windowSize.width + windowSize.height;
 
   return (
     <div>
-      <img src='/images/left-arrow.png' className={styles.back} 
-        style={{width: `${(windowSize.width / 50) + 15}px`}} 
-        onClick={() => {
-          // pause, so spotify player can stop everything before component stops rendering
-          if (!canUnmount) {
-            clear();
-            pauseMusic();
-          }
-          
-          setTimeout(() => {
-            if (canUnmount) setChecked(false);
-          }, 500);
-        }}
-      />
-      <div className={styles.container} style={{height: `${(windowSize.width / 25) + 35}px`}}>
-        <div onClick={() => toggleMusic()}
+      {musicStarted && 
+      <div className='animate__animated animate__fadeIn'>
+        <img src='/images/left-arrow.png' className={styles.back} 
+          style={{width: `${(windowSize.width / 50) + 15}px`}} 
+          onClick={() => {
+            // pause, so spotify player can stop everything before component stops rendering
+            if (!canUnmount) {
+              clear();
+              pauseMusic();
+            }
+            
+            setTimeout(() => {
+              if (canUnmount || musicPaused) setChecked(false);
+            }, 500);
+          }}
+        />
+      </div>}
+      {musicStarted && 
+      <div className='animate__animated animate__fadeIn'>
+        <div className={styles.container}
+          style={{height: `${trackImgSize}px`}}
         >
-          <img src={`/images/${musicPaused ? 'play' : 'pause'}.png`}
-            height={`${trackImgSize / 3.6}`}
-            style={{left: `${trackImgSize / 2}px`, top: `${trackImgSize / 2}px`}}
-            className={styles.center}
-          />
-          <img src={tracks.length !== 0 && tracks[curSongCount].album.images[0].url}
-            height={`${trackImgSize}`}
-            style={{borderRadius: '50%'}} 
-            className={!musicPaused && styles.rotate}
-          />
+          <div onClick={() => toggleMusic()} className={styles.button}
+            style={{left: `${trackImgSize / 2}px`}}
+          >
+            <img src={`/images/${musicPaused ? 'play' : 'pause'}.png`}
+              height={`${trackImgSize / 3.6}`}
+              style={{zIndex: '10'}}
+              className={styles.center}
+            />
+            <div className={styles.center}>
+              <img src={tracks.length !== 0 && tracks[curSongCount].album.images[0].url}
+                height={`${trackImgSize}`}
+                style={{borderRadius: '50%', zIndex: '9'}} 
+                className={!musicPaused ? styles.rotate : ''}
+              />
+            </div>
+          </div>
+          <div className={styles.trackName} 
+            style={{
+              top: `${trackImgSize / 2}px`, 
+              fontSize: `${(totalWindowSize / 220) + 8}px`,
+              borderRadius: `${(totalWindowSize / 200) + 2}px`,
+              paddingLeft: `${trackImgSize * 1.15}px`,
+              paddingRight: `${trackImgSize / 8}px`,
+              paddingTop: `${trackImgSize / 3}px`,
+              paddingBottom: `${trackImgSize / 3}px`
+            }}
+          >
+            {tracks.length !== 0 && tracks[curSongCount].name}
+          </div>
         </div>
-        <div>
-          {tracks.length !== 0 && tracks[curSongCount].name}
-        </div>
-      </div> 
+      </div>} 
     </div>
   );
 }

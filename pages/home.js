@@ -87,7 +87,7 @@ const Home = () => {
     <div>
       <TrackStats tracks={tracks} musicStarted={musicStarted}/>
       
-      <Music accessToken={accessToken} tracks={tracks} setChecked={setChecked} setMusicStarted={setMusicStarted}/>
+      <Music accessToken={accessToken} tracks={tracks} setChecked={setChecked} musicStarted={musicStarted} setMusicStarted={setMusicStarted}/>
       
       
     </div>
