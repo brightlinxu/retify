@@ -15,6 +15,7 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
   const [srcs, setSrcs] = useState([]);
   const [gotSrcs, setGotSrcs] = useState(false);
   const [blur, setBlur] = useState(0);
+  const [loaded, setLoaded] = useState(false);
 
 
 
@@ -100,13 +101,16 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
 
   useEffect(() => {
     setMoveDists(getImgMoveDists());
+    let timeout = setTimeout(() => {
+      setLoaded(true);
+    }, 1000);
   }, []);
 
 
   const baseSize = (windowSize.width + windowSize.height) / 13; // 13 and 615 are just numbers I picked
   const changingSize = (windowSize.width + windowSize.height) / 720; 
 
-  if (tracks.length && artists.length && moveDists.length) {
+  if (tracks.length && artists.length && moveDists.length && loaded) {
     if (!gotSrcs) {
       setSrcs(getPicSrcs());
       setGotSrcs(true);
@@ -131,8 +135,8 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
   }
 
   return (
-    <div>
-      Loading...
+    <div className={styles.loading}>
+      <img src='/images/loading.gif' />
     </div>
   );
   
