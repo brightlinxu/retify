@@ -29,6 +29,24 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
     return {min, sec};
   }
 
+  const capitalize = (genre) => {
+    let temp = '';
+    temp += genre[0].toUpperCase();
+    let size = genre.length;
+    let cap = false;
+    for (let i = 1; i < size; ++i) {
+      if (cap) {
+        temp += genre[i].toUpperCase();
+        cap = false;
+      }
+      else {
+        temp += genre[i];
+      }
+      if (genre[i] === ' ') cap = true;
+    }
+    return temp;
+  }
+
   // finding top genres
   const getTopGenres = () => {
     let tempGenres = {};
@@ -46,8 +64,7 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
 
     return Object.entries(tempGenres)
                  .sort((a,b) => b[1] - a[1])
-                 .slice(0, 3)
-                 .map(genre => { return genre[0]; });
+                 .map(genre => { return capitalize(genre[0]); });
   }
 
   const handleClick = () => {
@@ -60,8 +77,8 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
   // format is: {title, array with all the stats}
   const stats = [
     {title: 'Average Song Duration:', info: getAvgDur().min + ' min and ' + getAvgDur().sec + ' sec', pos: 20}, 
-    {title: 'Top Artists:', info: artists.slice(0, 3).map((artist, id) => (<div>{id + 1}. {artist.name}</div>)), pos: 46}, 
-    {title: 'Top Genres:', info: getTopGenres().map((genre, id) => (<div>{id + 1}. {genre}</div>)), pos: 75}
+    {title: 'Top Artists:', info: artists.slice(0, 3).map((artist, id) => (<div key={id}>{id + 1}. {artist.name}</div>)), pos: 46}, 
+    {title: 'Top Genres:', info: getTopGenres().slice(0, 3).map((genre, id) => (<div key={id}>{id + 1}. {genre}</div>)), pos: 75}
   ];
 
 
@@ -107,10 +124,10 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
         <div key={id} style={{left: '50%', top: `${stat.pos}%`}} className={styles.fixedPosition}>
           <div className={'animate__animated animate__fadeInUp'}> 
             <div className={styles.bubbleBackground}>
-              <div style={{fontSize: `${(windowSize.width / 100) + 10}px`}} className={styles.bubbleTitle}>
+              <div key={`${id}` + 'title'} style={{fontSize: `${(windowSize.width / 100) + 10}px`}} className={styles.bubbleTitle}>
                 {stat.title}
               </div>
-              <div style={{fontSize: `${(windowSize.width / 140) + 10}px`}} className={styles.bubbleInfo}>
+              <div key={`${id}` + 'info'} style={{fontSize: `${(windowSize.width / 140) + 10}px`}} className={styles.bubbleInfo}>
                 {stat.info}
               </div>
             </div>

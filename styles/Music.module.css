@@ -23,7 +23,7 @@
   transition: all 0.12s linear;
 }
 .button:hover {
-  transform: scale(1.08);
+  transform: scale(1.2);
 }
 
 .center {

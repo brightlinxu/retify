@@ -14,8 +14,8 @@ const Index = () => {
         <Fade direction={'left'} triggerOnce>
           <div style={{
               /*height: `${((1 - percentage) * 20) + 25}vh`*/
-              marginTop: `${((1 - percentage) * 8) + 10}vh`,
-              marginBottom: `${((1 - percentage) * 8) + 10}vh`
+              marginTop: `${((1 - percentage) * 10) + 10}vh`,
+              marginBottom: `${((1 - percentage) * 10) + 10}vh`
             }} 
             className={styles.inBetweenText}
           >
