@@ -7,7 +7,7 @@ import { getImgPositions, getImgMoveDists } from '../utilities/imgInfo.js';
 import 'animate.css';
 import styles from '../styles/PreHome.module.css';
 
-const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y, hasData, loaded } ) => {
+const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y, hasData, loadAnimation } ) => {
   const windowSize = getWindowSize();
   
   const positions = getImgPositions();
@@ -108,7 +108,7 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
   const baseSize = (windowSize.width + windowSize.height) / 13; // 13 and 615 are just numbers I picked
   const changingSize = (windowSize.width + windowSize.height) / 720; 
 
-  if (tracks.length && artists.length && moveDists.length && loaded) {
+  if (tracks.length && artists.length && moveDists.length && !loadAnimation) {
     if (!gotSrcs) {
       setSrcs(getPicSrcs());
       setGotSrcs(true);
