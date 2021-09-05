@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { getWindowSize } from '../utilities/getWindowSize.js';
 import { useSpring, animated } from 'react-spring';
-import styles from '../styles/PreHome.module.css';
+import LoadingAnimation from './LoadingAnimation.js';
+import lotti from '../public/images/loading animation.json';
 import { getImgPositions, getImgMoveDists } from '../utilities/imgInfo.js';
 import 'animate.css';
+import styles from '../styles/PreHome.module.css';
 
-const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y } ) => {
+const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y, hasData, loaded } ) => {
   const windowSize = getWindowSize();
   
   const positions = getImgPositions();
@@ -15,7 +17,6 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
   const [srcs, setSrcs] = useState([]);
   const [gotSrcs, setGotSrcs] = useState(false);
   const [blur, setBlur] = useState(0);
-  const [loaded, setLoaded] = useState(false);
 
 
 
@@ -101,9 +102,6 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
 
   useEffect(() => {
     setMoveDists(getImgMoveDists());
-    let timeout = setTimeout(() => {
-      setLoaded(true);
-    }, 1000);
   }, []);
 
 
@@ -133,12 +131,12 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
       </div>
     );
   }
-
-  return (
-    <div className={styles.loading}>
-      <img src='/images/loading.gif' />
-    </div>
-  );
+  else if (hasData) {
+    return (
+      <LoadingAnimation lotti={lotti} distFromTop={50}/>
+    );
+  }
+  else return <div></div>;
   
 }
 

@@ -21,6 +21,9 @@ const Home = () => {
   // check if music is playing 
   const [musicStarted, setMusicStarted] = useState(false);
 
+  // if person directly went to home page
+  const [actuallyLoaded, setActuallyLoaded] = useState(false);
+
 
   // get hash parameters from url
   const getAccessToken = () => {
@@ -79,7 +82,7 @@ const Home = () => {
   
   if (!checked) {
     return (
-      <PreHome tracks={tracks} artists={artists} setChecked={setChecked}/>
+      <PreHome tracks={tracks} artists={artists} setChecked={setChecked} hasData={hasData}/>
     );
   }
     
