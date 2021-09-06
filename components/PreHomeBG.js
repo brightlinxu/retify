@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getWindowSize } from '../utilities/getWindowSize.js';
 import { useSpring, animated } from 'react-spring';
-import LoadingAnimation from './LoadingAnimation.js';
-import lotti from '../public/images/loading animation.json';
+import LottieAnimation from './LottieAnimation.js';
+import lottie from '../public/images/loading animation.json';
 import { getImgPositions, getImgMoveDists } from '../utilities/imgInfo.js';
 import 'animate.css';
 import styles from '../styles/PreHome.module.css';
@@ -133,7 +133,7 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
   }
   else if (hasData) {
     return (
-      <LoadingAnimation lotti={lotti} distFromTop={50}/>
+      <LottieAnimation lottie={lottie} top={50} left={50} fadeIn={false}/>
     );
   }
   else return <div></div>;

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getWindowSize } from '../utilities/getWindowSize.js';
+import LottieAnimation from './LottieAnimation.js';
+import lottie from '../public/images/click animation.json';
 import 'animate.css';
 import styles from '../styles/PreHome.module.css';
 
@@ -7,6 +9,7 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
   const windowSize = getWindowSize();
   const [count, setCount] = useState(0);
   const [time, setTime] = useState(null);
+  const [showClicker, setShowClicker] = useState(false);
 
   // finding average duration
   const getAvgDur = () => {
@@ -117,6 +120,17 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
+  useEffect(() => {
+    let timeout = null;
+    if (count === 3) {
+      timeout = setTimeout(() => {
+        setShowClicker(true);
+      }, 2500);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [count]);
+
   
   return(
     <div>
@@ -134,8 +148,8 @@ const PreHomeStats = ( { tracks, artists, finishedBG, setRunBlur, setChecked } )
           </div>
         </div>
       ))}
+      {showClicker && <LottieAnimation lottie={lottie} left={80} top={80} fadeIn={true}/>}
     </div>
-    
   );
 }
 
