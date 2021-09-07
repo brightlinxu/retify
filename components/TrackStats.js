@@ -4,15 +4,26 @@ import TopTrack from './TopTrack.js';
 import { Parallax } from 'react-scroll-parallax';
 import LottieAnimation from './LottieAnimation.js';
 import lottie from '../public/images/loading animation white.json';
+import { Fade } from 'react-awesome-reveal';
 import styles from '../styles/TrackStats.module.css';
+import { getWindowSize } from '../utilities/getWindowSize.js';
 
 const TrackStats = ( { tracks, musicStarted } ) => {
+  const windowSize = getWindowSize();
+  const totalWindowSize = windowSize.width + windowSize.height;
 
   return(
     <div>
       <Parallax y={[-15, 15]} className={styles.background}>
-        <img src='/images/scribble17.png' style={{height: '90vh', width: '85vw'}}/>
+        <img src='/images/scribble17.png' style={{height: '95vh', width: '90vw'}}/>
       </Parallax>
+      <div className={styles.container} style={{fontSize: `${(totalWindowSize / 120) + 5}px`}}>
+        <Fade triggerOnce>
+          <div className={styles.topSong}>
+            -Top Song-
+          </div>
+        </Fade>
+      </div>
       {musicStarted ? 
       <div>
         <TopTrack topTrack={tracks[0]}/>
@@ -20,7 +31,7 @@ const TrackStats = ( { tracks, musicStarted } ) => {
       </div>
       :
       <div>
-        <LottieAnimation lottie={lottie} left={50} top={42} fadeIn={false}/>
+        <LottieAnimation lottie={lottie} left={50} top={44} fadeIn={false}/>
       </div>}
     </div>
   );

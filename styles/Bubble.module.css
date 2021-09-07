@@ -31,7 +31,7 @@
 
 
 .container {
-  /*background-color: rgb(211, 239, 255); */
+  background-color: rgb(211, 239, 255); 
   position: relative;
   height: 2000px;
   left: 50%;

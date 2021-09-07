@@ -1,14 +1,19 @@
 .background {
   position: absolute;
-  top: 43%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: -10;
 }
 
-.loading {
+.container {
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 80vh;
+  justify-content: center;
+  height: 8vh;
+  margin-top: 1vh;
+}
+
+.topSong {
+  font-family: Montserrat-SemiBold;
 }
