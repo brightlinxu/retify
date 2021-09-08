@@ -19,7 +19,7 @@ const Home = () => {
   const [checked, setChecked] = useState(false);
 
   // check if music is playing 
-  const [musicStarted, setMusicStarted] = useState(false);
+  const [musicStarted, setMusicStarted] = useState(true); // set to true temporary
 
   // if person directly went to home page
   const [actuallyLoaded, setActuallyLoaded] = useState(false);
@@ -80,17 +80,17 @@ const Home = () => {
 
 
   
-  if (!checked) {
+  /*if (!checked) {
     return (
       <PreHome tracks={tracks} artists={artists} setChecked={setChecked} hasData={hasData}/>
     );
-  }
+  }*/
     
   return (
     <div>
       <TrackStats tracks={tracks} musicStarted={musicStarted}/>
       
-      <Music accessToken={accessToken} tracks={tracks} setChecked={setChecked} musicStarted={musicStarted} setMusicStarted={setMusicStarted}/>
+      {/*<Music accessToken={accessToken} tracks={tracks} setChecked={setChecked} musicStarted={musicStarted} setMusicStarted={setMusicStarted}/>*/}
       
       
     </div>
