@@ -72,8 +72,8 @@ const Home = () => {
         // removes hash from url
         history.pushState('', document.title, window.location.pathname);
         console.log('access token:', accessToken);
-        getTop('tracks', 'short_term', 30);
-        getTop('artists', 'short_term', 30);
+        getTop('tracks', 'long_term', 30);
+        getTop('artists', 'long_term', 30);
       }
     }
   }, [accessToken]);
