@@ -1,6 +1,10 @@
 @import 'animate.css';
+@import url('https://fonts.googleapis.com/css?family=Montserrat-Light');
+@import url('https://fonts.googleapis.com/css?family=Montserrat=Regular');
+@import url('https://fonts.googleapis.com/css?family=Montserrat-Medium');
+@import url('https://fonts.googleapis.com/css?family=Montserrat-SemiBold');
 
-@font-face {
+/*@font-face {
   font-family: 'Montserrat';
   src: local('Montserrat'), url('/fonts/Montserrat/Montserrat-Light.ttf') format('truetype');
   font-style: light;
@@ -27,7 +31,7 @@
   font-style: semibold;
   font-weight: 600;
   font-display: swap;
-}
+}*/
 
 * {
   margin: 0;
