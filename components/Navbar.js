@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return<div/>; // temporarily hide navbar
 
-  return (
+  /*return (
     <nav style={{width: `${windowSize.width - 20}px`}}>
       <a href='/' >
         <img src='/images/logo (black).png' style={{width: '80px', height: '40px'}} id='center'/>
@@ -17,7 +17,7 @@ const Navbar = () => {
         {<li><ManualLogin displayStyle={'inline'}/></li>}
       </ul>
     </nav>
-  );
+  );*/
 }
 
 export default Navbar;

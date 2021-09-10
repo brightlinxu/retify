@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getWindowSize } from "../utilities/getWindowSize";
 import 'animate.css';
+import Image from 'next/image';
 import styles from '../styles/Music.module.css';
 
 //*****************************************************
@@ -312,7 +313,7 @@ const Music = ({ accessToken, tracks, setChecked, musicStarted, setMusicStarted 
       {musicStarted && 
       <div>
         <div className='animate__animated animate__fadeIn'>
-          <img src='/images/left-arrow.png' className={styles.back} 
+          <Image src='/images/left-arrow.png' alt='Left Arrow' className={styles.back} 
             style={{width: `${(windowSize.width / 50) + 15}px`}} 
             onClick={() => {
               // pause, so spotify player can stop everything before component stops rendering
@@ -337,13 +338,13 @@ const Music = ({ accessToken, tracks, setChecked, musicStarted, setMusicStarted 
             <div onClick={() => toggleMusic()} className={styles.button}
               style={{left: `${trackImgSize / 2}px`}}
             >
-              <img src={`/images/${musicPaused ? 'play' : 'pause'}.png`}
+              <Image src={`/images/${musicPaused ? 'play' : 'pause'}.png`} alt='Play Pause'
                 height={`${trackImgSize / 3.6}`}
                 style={{zIndex: '10'}}
                 className={styles.center}
               />
               <div className={styles.center}>
-                <img src={tracks.length !== 0 && tracks[curSongCount].album.images[0].url}
+                <Image src={tracks.length !== 0 && tracks[curSongCount].album.images[0].url} alt='Track Image'
                   height={`${trackImgSize}`}
                   style={{borderRadius: '50%', zIndex: '9'}} 
                   className={!musicPaused ? styles.rotate : ''}

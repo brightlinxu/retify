@@ -1,6 +1,7 @@
 import { getDate } from '../utilities/getReleaseDate.js';
 import { getWindowSize } from '../utilities/getWindowSize.js';
 import { Fade, Bounce } from 'react-awesome-reveal';
+import Image from 'next/image';
 import styles from '../styles/TopTrack.module.css';
 
 const TopTrack = ( { topTrack } ) => {
@@ -15,7 +16,7 @@ const TopTrack = ( { topTrack } ) => {
     <div>
       <div className={styles.container}> 
         <Fade direction={'up'} triggerOnce>
-          <img src={topTrack && topTrack.album.images[0].url} className={styles.img}/>
+          <Image src={topTrack && topTrack.album.images[0].url} alt='Top Track Image' className={styles.img}/>
         </Fade>
         <Fade direction={'up'} delay={1800} triggerOnce>
           <div className={styles.song} style={{fontSize: `${(totalWindowSize / 60) + 5}px`}}>
@@ -33,7 +34,7 @@ const TopTrack = ( { topTrack } ) => {
           </div>
         </Fade>
         <Bounce direction={'up'} delay={3500} duration={2500} triggerOnce>
-          <img src='/images/arrow down.png' style={{height: `${(totalWindowSize / 100) + 5}px`}}
+          <Image src='/images/arrow down.png' alt='Down Arrow' style={{height: `${(totalWindowSize / 100) + 5}px`}}
             className={styles.arrow}/>
         </Bounce>
       </div>
