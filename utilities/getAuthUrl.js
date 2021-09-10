@@ -18,7 +18,7 @@ export const getAuthUrl = (showDialog) => {
                 'user-read-email',
                 'user-read-private', 
                 'streaming'];
-  const redirect_uri = 'http://localhost:3000/home';
+  const redirect_uri = 'https://retify.brightxu.com/home';
   const state = getStateKey(16);
 
   // auth request url
