@@ -35,10 +35,10 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Montserrat', 'Roboto';
+  font-weight: 400;
 }
 
 div {
-  font-weight: 400;
   text-decoration: none;
 }
 

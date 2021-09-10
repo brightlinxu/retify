@@ -17,21 +17,21 @@
   margin-top: 2.5vh;
   margin-left: 5vw;
   margin-right: 5vw;
-  font-family: Montserrat-SemiBold;
+  font-weight: 600;
 }
 
 .artists {
   margin-top: 0.5vh;
   margin-left: 5vw;
   margin-right: 5vw;
-  font-family: Montserrat-Light;
+  font-weight: 300;
 }
 
 .date {
   margin-top: 8vh;
   margin-left: 5vw;
   margin-right: 5vw;
-  font-family: Montserrat-Regular;
+  font-weight: 400;
 }
 
 .arrow {
