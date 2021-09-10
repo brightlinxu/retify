@@ -19,7 +19,7 @@ const Home = () => {
   const [checked, setChecked] = useState(false);
 
   // check if music is playing 
-  const [musicStarted, setMusicStarted] = useState(true); // set to true temporary
+  const [musicStarted, setMusicStarted] = useState(false); // set to true temporary
 
   // if person directly went to home page
   const [actuallyLoaded, setActuallyLoaded] = useState(false);
