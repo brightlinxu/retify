@@ -110,7 +110,7 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
       onMouseLeave={() => {setHover(false);}}
       onClick={() => {if (!transition) {clearTimeout(time); setTransition(true); clicked(id); setTime(setTimeout(() => setTransition(false), MOVEDUR))}}}
     >
-      <Fade direction={'up'} fraction={0.7} triggerOnce>
+      <Fade direction={'up'} fraction={0.5} triggerOnce>
         <div style={{width: `${originalBbl.size * 0.8}px`, height: `${originalBbl.size}px`, 
           /*background: `#${color}`,*/ border: '1px solid black', zIndex: `${-1 * id}`, borderRadius: '10%'}} 
         >
