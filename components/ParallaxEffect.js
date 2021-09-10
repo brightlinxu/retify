@@ -14,7 +14,7 @@ const ParallaxEffect = (  { img, text, translate } ) => {
         >
           <Zoom fraction={0.9} triggerOnce>
             <div style={{
-              fontFamily: 'Montserrat-SemiBold', fontSize: `${(windowSize.width / 12) + 10}px`, color: '#f8f8ff'
+              fontWeight: '600', fontSize: `${(windowSize.width / 12) + 10}px`, color: '#f8f8ff'
             }}
             >
               {text}
