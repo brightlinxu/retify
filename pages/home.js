@@ -21,9 +21,6 @@ const Home = () => {
   // check if music is playing 
   const [musicStarted, setMusicStarted] = useState(false); // set to true temporary
 
-  // if person directly went to home page
-  const [actuallyLoaded, setActuallyLoaded] = useState(false);
-
 
   // get hash parameters from url
   const getAccessToken = () => {
