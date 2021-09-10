@@ -89,9 +89,11 @@
 }
 
 .trackTitle {
+  font-weight: 500;
   font-family: Montserrat-Medium;
 }
 .trackArtist {
+  font-weight: 300;
   font-family: Montserrat-Light;
 }
 

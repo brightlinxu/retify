@@ -1,8 +1,5 @@
 @import 'animate.css';
-@import url('https://fonts.googleapis.com/css?family=Montserrat-Light');
-@import url('https://fonts.googleapis.com/css?family=Montserrat=Regular');
-@import url('https://fonts.googleapis.com/css?family=Montserrat-Medium');
-@import url('https://fonts.googleapis.com/css?family=Montserrat-SemiBold');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap');
 
 /*@font-face {
   font-family: 'Montserrat';
@@ -37,7 +34,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Montserrat-Regular', 'Roboto';
+  font-family: 'Montserrat', 'Roboto';
 }
 
 div {
