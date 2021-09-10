@@ -39,8 +39,8 @@ const Bubbles = ( { tracks } ) => {
   }
   
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    handleResize();
+    // window.addEventListener('resize', handleResize);
+    // handleResize();
   }, []);
   
   if (tracks.length === 0) {

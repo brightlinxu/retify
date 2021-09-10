@@ -14,9 +14,17 @@
   transform: translate(-50%, -25vh);
 }
 
-.loginColor {
-  background-color: #ffcb37;
+.loginButton {
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px 25px;
+  box-shadow: 0 0 5px #000000;
   border-radius: 20px;
+  background-color: #ffcb37;
+  transition: all 0.12s linear;
+}
+.loginButton:hover {
+  transform: scale(1.08);
 }
 
 

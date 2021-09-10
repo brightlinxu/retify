@@ -6,14 +6,12 @@ import styles from '../styles/Bubble.module.css'
 
 const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransition, 
                   originalChange, setOriginalChange, BIGSIZE, MOVEDIST, track } ) => {
-  const colors =  ['ffd358', 'ffd664', 'ffd96c', 'ffdd7c', 'ffe089', 'ffe59c'];
   const MOVEDUR = 700; // in ms
   
   const [bblPos, setBblPos] = useState(originalBbl);
   const [hover, setHover] = useState(false);
   const [time, setTime] = useState(null);
   const [thisBblClicked, setThisBblClicked] = useState(false);
-  const [color, setColor] = useState(null);
 
 
 
@@ -87,10 +85,6 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
     updatePos();
   }, [clickedBbl]);
 
-  // set random color for bubble initially
-  useEffect(() => {
-    setColor(colors[Math.floor(Math.random() * colors.length)]);
-  }, []);
 
   // sets new original bubbles when screen width changes
   useEffect(() => {

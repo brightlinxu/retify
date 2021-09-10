@@ -17,24 +17,6 @@ export const getBubblePositions = (windowState) => {
      ]
    ];
 
-  /*const maxHeight = 300, minHeight = 200, yVariation = 100, xVariation = 50, maxWidth = 240;
-  let counter = -1;
-  for (let i = 0; i < 20; ++i) {
-    if (i % 4 == 0) ++counter;
-    let randomSize = Math.floor(Math.random() * (maxHeight - minHeight) + minHeight);
-
-    let randomXMax = ((i % 4) * ((containerWidths[windowState] - maxWidth) / 3) + (maxWidth / 2)) + xVariation;
-    let randomXMin = ((i % 4) * ((containerWidths[windowState] - maxWidth) / 3) + (maxWidth / 2)) - xVariation;
-    let randomX = Math.floor(Math.random() * (randomXMax - randomXMin) + randomXMin);
-
-    let randomYMax = (counter * (maxHeight + yVariation)) + (maxHeight / 2) + (yVariation / 2);
-    let randomYMin = (counter * (maxHeight + yVariation)) + (maxHeight / 2) - (yVariation / 2);
-    let randomY = Math.floor(Math.random() * (randomYMax - randomYMin) + randomYMin);
-
-    bubblePositions[0].push({x: randomX, y: randomY, size: randomSize});
-  }
-  console.log(bubblePositions);*/
-
   return bubblePositions;
 }
 
