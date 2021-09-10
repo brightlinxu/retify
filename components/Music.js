@@ -324,7 +324,7 @@ const Music = ({ accessToken, tracks, setChecked, musicStarted, setMusicStarted 
               setTimeout(() => {
                 if (canUnmount || musicPaused) {
                   setChecked(false);
-                  setMusicStarted(true);
+                  setMusicStarted(false);
                 }
               }, 500);
             }}
