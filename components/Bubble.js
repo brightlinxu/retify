@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { getDate } from '../utilities/getReleaseDate.js';
 //import Fade from 'react-reveal/Fade';
 import { Fade } from 'react-awesome-reveal';
-import Image from 'next/image';
 import styles from '../styles/Bubble.module.css'
 
 const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransition, 
@@ -132,7 +131,7 @@ const Bubble = ( { id, originalBbl, clickedBbl, clicked, transition, setTransiti
           >
             {id + 2}
           </div>
-          <Image src={track.album.images[0].url} alt='Track Image' className={styles.trackImage}
+          <img src={track.album.images[0].url} alt='Track Image' className={styles.trackImage}
             style={{
               width: `${thisBblClicked ? 40 : 90}%`,
               height: `${thisBblClicked ? 40 : 72}%`, 

@@ -5,7 +5,6 @@ import LottieAnimation from './LottieAnimation.js';
 import lottie from '../public/images/loading animation.json';
 import { getImgPositions, getImgMoveDists } from '../utilities/imgInfo.js';
 import 'animate.css';
-import Image from 'next/image';
 import styles from '../styles/PreHome.module.css';
 
 const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y, hasData, loadAnimation } ) => {
@@ -124,7 +123,7 @@ const PreHomeBG = ( { tracks, artists, picInterval, setFinishedBG, runBlur, x, y
           >
             <div className={'animate__animated animate__fadeInUp'}>
               <animated.div style={{transform: spring.xy.to((x, y) => `translate3d(${x / moveDists[id].x/*x / ((id * 0.5) + 12)*/}px, ${y / moveDists[id].y/*y / ((id * 0.5) + 12)*/}px, 0)`)}}>
-                <Image src={src} alt='Track Image' height={baseSize - (id * changingSize)} style={{borderRadius: '5%'}} />
+                <img src={src} alt='Track Image' height={baseSize - (id * changingSize)} style={{borderRadius: '5%'}} />
               </animated.div>
             </div>
           </div>
