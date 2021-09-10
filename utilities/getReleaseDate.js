@@ -1,5 +1,7 @@
 export const getDate = (date) => {
   const separated = date.split('-'); // [0] = year, [1] = month, [2] = day
+
+  if (separated.length === 1) return separated[0];
   
   let year = separated[0];
   let month = separated[1];
@@ -19,6 +21,8 @@ export const getDate = (date) => {
     case '11': month = 'November'; break;
     case '12': month = 'December'; break;
   }
+
+  console.log('day: ', day);
 
   return `${month} ${day[0] === '0' ? day[1] : day}, ${year}`;
 }
