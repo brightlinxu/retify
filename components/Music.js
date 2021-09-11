@@ -43,7 +43,6 @@ const Music = ({ accessToken, tracks, setChecked, musicStarted, setMusicStarted 
 
   const randomizer = (track) => {
     if (track.duration_ms < 30000) { // in case song is less than 30 seconds
-      console.log('LESS THAN 30 SECONDS\n\n\n\n\n')
       return 0;
     }
   
@@ -64,7 +63,7 @@ const Music = ({ accessToken, tracks, setChecked, musicStarted, setMusicStarted 
     })
       .then(res => {
         if (res.ok) { 
-          console.log(`CURRENTLY PLAYING ${tracks[counter].name}`);
+          // console.log(`CURRENTLY PLAYING ${tracks[counter].name}`);
 
           canUnmount = false; // cannot unmount now because music is playing
 
@@ -87,7 +86,7 @@ const Music = ({ accessToken, tracks, setChecked, musicStarted, setMusicStarted 
     })
       .then(res => {
         if (res.ok) {
-          console.log('PAUSED MUSIC');
+          // console.log('PAUSED MUSIC');
           setMusicPaused(true);
           setVolume(0);
 
@@ -104,8 +103,8 @@ const Music = ({ accessToken, tracks, setChecked, musicStarted, setMusicStarted 
       headers: {'Authorization': 'Bearer ' + accessToken}
     })
       .then(res => {
-        if (res.ok) console.log(`CHANGED VOLUME TO ${volumePercent}`);
-        else console.log('ERROR CHANGING VOLUME');
+        // if (res.ok) console.log(`CHANGED VOLUME TO ${volumePercent}`);
+        // else console.log('ERROR CHANGING VOLUME');
       });
   }
 
@@ -117,7 +116,7 @@ const Music = ({ accessToken, tracks, setChecked, musicStarted, setMusicStarted 
     clearInterval(cfuInterval);
     clearInterval(cfdInterval);
     clearTimeout(bgTimeout);
-    console.log('CLEARED');
+    // console.log('CLEARED');
   }
 
   // plays and pauses the music
@@ -228,7 +227,7 @@ const Music = ({ accessToken, tracks, setChecked, musicStarted, setMusicStarted 
       
         // Playback status updates
         player.addListener('player_state_changed', state => { 
-          console.log('state:', state); 
+          // console.log('state:', state); 
           
           if (state && mounted) {
             if (state.paused && state.position === 0) {
@@ -244,7 +243,7 @@ const Music = ({ accessToken, tracks, setChecked, musicStarted, setMusicStarted 
       
         // Ready
         player.addListener('ready', ({ device_id }) => {
-            console.log('Ready with Device ID', device_id);
+            // console.log('Ready with Device ID', device_id);
       
             if (mounted) setDeviceId(device_id);
         });

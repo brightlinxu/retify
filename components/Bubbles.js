@@ -7,7 +7,8 @@ import { getBubblePositions, getBubbleBigSize, getBubbleMoveDist } from '../util
 const Bubbles = ( { tracks } ) => {
   const windowSize = getWindowSize();
 
-  const originalBbls = getBubblePositions();
+  // const originalBbls = getBubblePositions();
+  const [originalBbls, setOriginalBbls] = useState([]);
 
   const [lastClicked, setLastClicked] = useState(null);
   const [clickedBbl, setClickedBbl] = useState(null);
@@ -41,9 +42,10 @@ const Bubbles = ( { tracks } ) => {
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     handleResize();
+    setOriginalBbls(getBubblePositions());
   }, []);
   
-  if (tracks.length === 0) {
+  if (tracks.length === 0 || originalBbls.length === 0) {
     return(
       <div>
         Loading...

@@ -22,7 +22,5 @@ export const getDate = (date) => {
     case '12': month = 'December'; break;
   }
 
-  console.log('day: ', day);
-
   return `${month} ${day[0] === '0' ? day[1] : day}, ${year}`;
 }

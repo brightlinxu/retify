@@ -49,7 +49,7 @@ const Home = () => {
         return res.json();
       })
       .then(data => {
-        console.log(`${type} info:`, data.items);
+        // console.log(`${type} info:`, data.items);
         type === 'tracks' ? setTracks(data.items) : setArtists(data.items);
       })
   }
@@ -68,7 +68,7 @@ const Home = () => {
         setHasData(true); // makes sure these functions don't run again during re-renders
         // removes hash from url
         history.pushState('', document.title, window.location.pathname);
-        console.log('access token:', accessToken);
+        // console.log('access token:', accessToken);
         getTop('tracks', 'long_term', 30);
         getTop('artists', 'long_term', 30);
       }
