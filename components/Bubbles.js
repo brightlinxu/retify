@@ -29,7 +29,7 @@ const Bubbles = ( { tracks } ) => {
 
 
   const handleResize = () => {
-    if (window.innerWidth < 800) {
+    if (window.innerWidth < 400) {
       setWindowState(1);
     }
     else {
@@ -39,8 +39,8 @@ const Bubbles = ( { tracks } ) => {
   }
   
   useEffect(() => {
-    // window.addEventListener('resize', handleResize);
-    // handleResize();
+    window.addEventListener('resize', handleResize);
+    handleResize();
   }, []);
   
   if (tracks.length === 0) {
