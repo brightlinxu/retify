@@ -30,7 +30,7 @@ const Bubbles = ( { tracks } ) => {
 
 
   const handleResize = () => {
-    if (window.innerWidth < 400) {
+    if (window.innerWidth < 500) {
       setWindowState(1);
     }
     else {

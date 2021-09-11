@@ -15,7 +15,7 @@ export const getBubblePositions = (windowState) => {
 
   const variationX = 20, firstX = 70, secondX = 210;
   const variationSize = 50, minSize = 110;
-  const yDist = 200;
+  const yDist = 180;
   let counter = 0;
   for (let i = 0; i < 29; ++i) {
     if (i % 2 == 0) ++counter;
@@ -30,7 +30,6 @@ export const getBubblePositions = (windowState) => {
 
     bubblePositions[1][i] = {x: randomX, y: yPos, size: randomSize};
   }
-  console.log(bubblePositions);
 
   return bubblePositions;
 }
