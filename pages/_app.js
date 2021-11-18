@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
       <Layout>
         <Head>
           <title>retify</title>
-          <link rel='shortcut icon' href='/favicon.ico' />
+          <link rel='icon' href='/favicon.ico' />
         </Head>
         <Component {...pageProps} />
       </Layout>
